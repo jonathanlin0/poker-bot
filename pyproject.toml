@@ -1,2 +1,13 @@
 [tool.mypy]
 cache_dir = "cache/.mypy_cache"
+
+[tool.black]
+line-length = 80
+target-version = ["py39"]  # Specify your target Python version
+
+[tool.ruff]
+line-length = 80
+extend-select = ["E501"]  # Enforces the line length check
+
+[tool.ruff.lint]
+select = ["E501"]

@@ -7,8 +7,11 @@ def type_check(c):
 
 @task
 def format(c):
-    """Run ruff for code formatting."""
-    c.run("RUFF_CACHE_DIR=cache/.ruff_cache ruff check . --fix")
+    """Format code using black and enforce linting rules using ruff."""
+    # Format code with black
+    c.run("black --line-length 20 .")
+    # Run ruff to check and apply any remaining formatting rules
+    c.run("ruff check . --fix")
 
 @task
 def format_check(c):
