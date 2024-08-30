@@ -1,0 +1,12 @@
+name: poker_bot
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11.6
+  - numpy=1.26.4
+  - pip=24.0
+  - pip:
+      - pokerkit==0.3.0
+      - tqdm==4.66.2
+      - mypy==1.11.2
