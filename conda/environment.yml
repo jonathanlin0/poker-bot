@@ -11,3 +11,4 @@ dependencies:
       - tqdm==4.66.2
       - mypy==1.11.2
       - invoke==2.2.0
+      - ruff==0.6.3
