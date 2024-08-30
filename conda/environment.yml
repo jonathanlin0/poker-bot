@@ -10,3 +10,4 @@ dependencies:
       - pokerkit==0.3.0
       - tqdm==4.66.2
       - mypy==1.11.2
+      - invoke==2.2.0
