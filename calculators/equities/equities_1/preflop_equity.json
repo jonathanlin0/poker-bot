@@ -1,0 +1,1185 @@
+{
+    "AAo": {
+        "wins": 99798,
+        "losses": 17156,
+        "ties": 646,
+        "total": 117600,
+        "win rate": 0.85
+    },
+    "AKs": {
+        "wins": 51849,
+        "losses": 25257,
+        "ties": 1294,
+        "total": 78400,
+        "win rate": 0.66
+    },
+    "AKo": {
+        "wins": 151517,
+        "losses": 79713,
+        "ties": 3970,
+        "total": 235200,
+        "win rate": 0.64
+    },
+    "AQs": {
+        "wins": 51299,
+        "losses": 25759,
+        "ties": 1342,
+        "total": 78400,
+        "win rate": 0.65
+    },
+    "AQo": {
+        "wins": 149771,
+        "losses": 81057,
+        "ties": 4372,
+        "total": 235200,
+        "win rate": 0.64
+    },
+    "AJs": {
+        "wins": 50641,
+        "losses": 26209,
+        "ties": 1550,
+        "total": 78400,
+        "win rate": 0.65
+    },
+    "AJo": {
+        "wins": 146817,
+        "losses": 83469,
+        "ties": 4914,
+        "total": 235200,
+        "win rate": 0.62
+    },
+    "ATs": {
+        "wins": 49786,
+        "losses": 26880,
+        "ties": 1734,
+        "total": 78400,
+        "win rate": 0.64
+    },
+    "ATo": {
+        "wins": 144751,
+        "losses": 84955,
+        "ties": 5494,
+        "total": 235200,
+        "win rate": 0.62
+    },
+    "A9s": {
+        "wins": 48217,
+        "losses": 28228,
+        "ties": 1955,
+        "total": 78400,
+        "win rate": 0.62
+    },
+    "A9o": {
+        "wins": 139465,
+        "losses": 89417,
+        "ties": 6318,
+        "total": 235200,
+        "win rate": 0.59
+    },
+    "A8s": {
+        "wins": 47223,
+        "losses": 28867,
+        "ties": 2310,
+        "total": 78400,
+        "win rate": 0.6
+    },
+    "A8o": {
+        "wins": 137497,
+        "losses": 90588,
+        "ties": 7115,
+        "total": 235200,
+        "win rate": 0.58
+    },
+    "A7s": {
+        "wins": 46593,
+        "losses": 29272,
+        "ties": 2535,
+        "total": 78400,
+        "win rate": 0.59
+    },
+    "A7o": {
+        "wins": 134747,
+        "losses": 92675,
+        "ties": 7778,
+        "total": 235200,
+        "win rate": 0.57
+    },
+    "A6s": {
+        "wins": 45581,
+        "losses": 30082,
+        "ties": 2737,
+        "total": 78400,
+        "win rate": 0.58
+    },
+    "A6o": {
+        "wins": 131594,
+        "losses": 95026,
+        "ties": 8580,
+        "total": 235200,
+        "win rate": 0.56
+    },
+    "A5s": {
+        "wins": 45625,
+        "losses": 29909,
+        "ties": 2866,
+        "total": 78400,
+        "win rate": 0.58
+    },
+    "A5o": {
+        "wins": 130949,
+        "losses": 95020,
+        "ties": 9231,
+        "total": 235200,
+        "win rate": 0.56
+    },
+    "A4s": {
+        "wins": 44803,
+        "losses": 30563,
+        "ties": 3034,
+        "total": 78400,
+        "win rate": 0.57
+    },
+    "A4o": {
+        "wins": 129002,
+        "losses": 96810,
+        "ties": 9388,
+        "total": 235200,
+        "win rate": 0.55
+    },
+    "A3s": {
+        "wins": 44102,
+        "losses": 31280,
+        "ties": 3018,
+        "total": 78400,
+        "win rate": 0.56
+    },
+    "A3o": {
+        "wins": 126824,
+        "losses": 98960,
+        "ties": 9416,
+        "total": 235200,
+        "win rate": 0.54
+    },
+    "A2s": {
+        "wins": 43414,
+        "losses": 31994,
+        "ties": 2992,
+        "total": 78400,
+        "win rate": 0.55
+    },
+    "A2o": {
+        "wins": 124299,
+        "losses": 101550,
+        "ties": 9351,
+        "total": 235200,
+        "win rate": 0.53
+    },
+    "KKo": {
+        "wins": 96515,
+        "losses": 20385,
+        "ties": 700,
+        "total": 117600,
+        "win rate": 0.82
+    },
+    "KQs": {
+        "wins": 49011,
+        "losses": 27877,
+        "ties": 1512,
+        "total": 78400,
+        "win rate": 0.63
+    },
+    "KQo": {
+        "wins": 141977,
+        "losses": 88506,
+        "ties": 4717,
+        "total": 235200,
+        "win rate": 0.6
+    },
+    "KJs": {
+        "wins": 48231,
+        "losses": 28495,
+        "ties": 1674,
+        "total": 78400,
+        "win rate": 0.62
+    },
+    "KJo": {
+        "wins": 139768,
+        "losses": 90167,
+        "ties": 5265,
+        "total": 235200,
+        "win rate": 0.59
+    },
+    "KTs": {
+        "wins": 47517,
+        "losses": 29021,
+        "ties": 1862,
+        "total": 78400,
+        "win rate": 0.61
+    },
+    "KTo": {
+        "wins": 137346,
+        "losses": 91963,
+        "ties": 5891,
+        "total": 235200,
+        "win rate": 0.58
+    },
+    "K9s": {
+        "wins": 46090,
+        "losses": 30180,
+        "ties": 2130,
+        "total": 78400,
+        "win rate": 0.59
+    },
+    "K9o": {
+        "wins": 132301,
+        "losses": 96397,
+        "ties": 6502,
+        "total": 235200,
+        "win rate": 0.56
+    },
+    "K8s": {
+        "wins": 44435,
+        "losses": 31574,
+        "ties": 2391,
+        "total": 78400,
+        "win rate": 0.57
+    },
+    "K8o": {
+        "wins": 128127,
+        "losses": 99522,
+        "ties": 7551,
+        "total": 235200,
+        "win rate": 0.54
+    },
+    "K7s": {
+        "wins": 43986,
+        "losses": 31766,
+        "ties": 2648,
+        "total": 78400,
+        "win rate": 0.56
+    },
+    "K7o": {
+        "wins": 125076,
+        "losses": 101730,
+        "ties": 8394,
+        "total": 235200,
+        "win rate": 0.53
+    },
+    "K6s": {
+        "wins": 43049,
+        "losses": 32475,
+        "ties": 2876,
+        "total": 78400,
+        "win rate": 0.55
+    },
+    "K6o": {
+        "wins": 123059,
+        "losses": 102950,
+        "ties": 9191,
+        "total": 235200,
+        "win rate": 0.52
+    },
+    "K5s": {
+        "wins": 42352,
+        "losses": 33013,
+        "ties": 3035,
+        "total": 78400,
+        "win rate": 0.54
+    },
+    "K5o": {
+        "wins": 120783,
+        "losses": 104690,
+        "ties": 9727,
+        "total": 235200,
+        "win rate": 0.51
+    },
+    "K4s": {
+        "wins": 41514,
+        "losses": 33768,
+        "ties": 3118,
+        "total": 78400,
+        "win rate": 0.53
+    },
+    "K4o": {
+        "wins": 117845,
+        "losses": 107407,
+        "ties": 9948,
+        "total": 235200,
+        "win rate": 0.5
+    },
+    "K3s": {
+        "wins": 40779,
+        "losses": 34473,
+        "ties": 3148,
+        "total": 78400,
+        "win rate": 0.52
+    },
+    "K3o": {
+        "wins": 115779,
+        "losses": 109468,
+        "ties": 9953,
+        "total": 235200,
+        "win rate": 0.49
+    },
+    "K2s": {
+        "wins": 40197,
+        "losses": 35097,
+        "ties": 3106,
+        "total": 78400,
+        "win rate": 0.51
+    },
+    "K2o": {
+        "wins": 114168,
+        "losses": 111218,
+        "ties": 9814,
+        "total": 235200,
+        "win rate": 0.49
+    },
+    "QQo": {
+        "wins": 93641,
+        "losses": 23246,
+        "ties": 713,
+        "total": 117600,
+        "win rate": 0.8
+    },
+    "QJs": {
+        "wins": 46230,
+        "losses": 30317,
+        "ties": 1853,
+        "total": 78400,
+        "win rate": 0.59
+    },
+    "QJo": {
+        "wins": 133955,
+        "losses": 95539,
+        "ties": 5706,
+        "total": 235200,
+        "win rate": 0.57
+    },
+    "QTs": {
+        "wins": 45575,
+        "losses": 30775,
+        "ties": 2050,
+        "total": 78400,
+        "win rate": 0.58
+    },
+    "QTo": {
+        "wins": 131847,
+        "losses": 97094,
+        "ties": 6259,
+        "total": 235200,
+        "win rate": 0.56
+    },
+    "Q9s": {
+        "wins": 44136,
+        "losses": 31971,
+        "ties": 2293,
+        "total": 78400,
+        "win rate": 0.56
+    },
+    "Q9o": {
+        "wins": 127171,
+        "losses": 100927,
+        "ties": 7102,
+        "total": 235200,
+        "win rate": 0.54
+    },
+    "Q8s": {
+        "wins": 42750,
+        "losses": 33168,
+        "ties": 2482,
+        "total": 78400,
+        "win rate": 0.55
+    },
+    "Q8o": {
+        "wins": 122052,
+        "losses": 105351,
+        "ties": 7797,
+        "total": 235200,
+        "win rate": 0.52
+    },
+    "Q7s": {
+        "wins": 41291,
+        "losses": 34274,
+        "ties": 2835,
+        "total": 78400,
+        "win rate": 0.53
+    },
+    "Q7o": {
+        "wins": 117396,
+        "losses": 109019,
+        "ties": 8785,
+        "total": 235200,
+        "win rate": 0.5
+    },
+    "Q6s": {
+        "wins": 40649,
+        "losses": 34794,
+        "ties": 2957,
+        "total": 78400,
+        "win rate": 0.52
+    },
+    "Q6o": {
+        "wins": 115370,
+        "losses": 110236,
+        "ties": 9594,
+        "total": 235200,
+        "win rate": 0.49
+    },
+    "Q5s": {
+        "wins": 40060,
+        "losses": 35126,
+        "ties": 3214,
+        "total": 78400,
+        "win rate": 0.51
+    },
+    "Q5o": {
+        "wins": 112571,
+        "losses": 112457,
+        "ties": 10172,
+        "total": 235200,
+        "win rate": 0.48
+    },
+    "Q4s": {
+        "wins": 39004,
+        "losses": 36118,
+        "ties": 3278,
+        "total": 78400,
+        "win rate": 0.5
+    },
+    "Q4o": {
+        "wins": 110162,
+        "losses": 114740,
+        "ties": 10298,
+        "total": 235200,
+        "win rate": 0.47
+    },
+    "Q3s": {
+        "wins": 38392,
+        "losses": 36725,
+        "ties": 3283,
+        "total": 78400,
+        "win rate": 0.49
+    },
+    "Q3o": {
+        "wins": 108483,
+        "losses": 116395,
+        "ties": 10322,
+        "total": 235200,
+        "win rate": 0.46
+    },
+    "Q2s": {
+        "wins": 37824,
+        "losses": 37290,
+        "ties": 3286,
+        "total": 78400,
+        "win rate": 0.48
+    },
+    "Q2o": {
+        "wins": 106516,
+        "losses": 118313,
+        "ties": 10371,
+        "total": 235200,
+        "win rate": 0.45
+    },
+    "JJo": {
+        "wins": 90540,
+        "losses": 26356,
+        "ties": 704,
+        "total": 117600,
+        "win rate": 0.77
+    },
+    "JTs": {
+        "wins": 43910,
+        "losses": 32327,
+        "ties": 2163,
+        "total": 78400,
+        "win rate": 0.56
+    },
+    "JTo": {
+        "wins": 126886,
+        "losses": 101539,
+        "ties": 6775,
+        "total": 235200,
+        "win rate": 0.54
+    },
+    "J9s": {
+        "wins": 42384,
+        "losses": 33542,
+        "ties": 2474,
+        "total": 78400,
+        "win rate": 0.54
+    },
+    "J9o": {
+        "wins": 121468,
+        "losses": 106097,
+        "ties": 7635,
+        "total": 235200,
+        "win rate": 0.52
+    },
+    "J8s": {
+        "wins": 41010,
+        "losses": 34744,
+        "ties": 2646,
+        "total": 78400,
+        "win rate": 0.52
+    },
+    "J8o": {
+        "wins": 116504,
+        "losses": 110334,
+        "ties": 8362,
+        "total": 235200,
+        "win rate": 0.5
+    },
+    "J7s": {
+        "wins": 39721,
+        "losses": 35782,
+        "ties": 2897,
+        "total": 78400,
+        "win rate": 0.51
+    },
+    "J7o": {
+        "wins": 111963,
+        "losses": 114039,
+        "ties": 9198,
+        "total": 235200,
+        "win rate": 0.48
+    },
+    "J6s": {
+        "wins": 38065,
+        "losses": 37151,
+        "ties": 3184,
+        "total": 78400,
+        "win rate": 0.49
+    },
+    "J6o": {
+        "wins": 107371,
+        "losses": 117888,
+        "ties": 9941,
+        "total": 235200,
+        "win rate": 0.46
+    },
+    "J5s": {
+        "wins": 37506,
+        "losses": 37582,
+        "ties": 3312,
+        "total": 78400,
+        "win rate": 0.48
+    },
+    "J5o": {
+        "wins": 105175,
+        "losses": 119406,
+        "ties": 10619,
+        "total": 235200,
+        "win rate": 0.45
+    },
+    "J4s": {
+        "wins": 36750,
+        "losses": 38254,
+        "ties": 3396,
+        "total": 78400,
+        "win rate": 0.47
+    },
+    "J4o": {
+        "wins": 103107,
+        "losses": 121298,
+        "ties": 10795,
+        "total": 235200,
+        "win rate": 0.44
+    },
+    "J3s": {
+        "wins": 36231,
+        "losses": 38718,
+        "ties": 3451,
+        "total": 78400,
+        "win rate": 0.46
+    },
+    "J3o": {
+        "wins": 101148,
+        "losses": 123322,
+        "ties": 10730,
+        "total": 235200,
+        "win rate": 0.43
+    },
+    "J2s": {
+        "wins": 35286,
+        "losses": 39694,
+        "ties": 3420,
+        "total": 78400,
+        "win rate": 0.45
+    },
+    "J2o": {
+        "wins": 99084,
+        "losses": 125446,
+        "ties": 10670,
+        "total": 235200,
+        "win rate": 0.42
+    },
+    "TTo": {
+        "wins": 87702,
+        "losses": 29094,
+        "ties": 804,
+        "total": 117600,
+        "win rate": 0.75
+    },
+    "T9s": {
+        "wins": 40807,
+        "losses": 35051,
+        "ties": 2542,
+        "total": 78400,
+        "win rate": 0.52
+    },
+    "T9o": {
+        "wins": 117288,
+        "losses": 109777,
+        "ties": 8135,
+        "total": 235200,
+        "win rate": 0.5
+    },
+    "T8s": {
+        "wins": 39456,
+        "losses": 36034,
+        "ties": 2910,
+        "total": 78400,
+        "win rate": 0.5
+    },
+    "T8o": {
+        "wins": 112808,
+        "losses": 113439,
+        "ties": 8953,
+        "total": 235200,
+        "win rate": 0.48
+    },
+    "T7s": {
+        "wins": 38450,
+        "losses": 36814,
+        "ties": 3136,
+        "total": 78400,
+        "win rate": 0.49
+    },
+    "T7o": {
+        "wins": 107730,
+        "losses": 117690,
+        "ties": 9780,
+        "total": 235200,
+        "win rate": 0.46
+    },
+    "T6s": {
+        "wins": 36701,
+        "losses": 38321,
+        "ties": 3378,
+        "total": 78400,
+        "win rate": 0.47
+    },
+    "T6o": {
+        "wins": 102849,
+        "losses": 121832,
+        "ties": 10519,
+        "total": 235200,
+        "win rate": 0.44
+    },
+    "T5s": {
+        "wins": 35253,
+        "losses": 39587,
+        "ties": 3560,
+        "total": 78400,
+        "win rate": 0.45
+    },
+    "T5o": {
+        "wins": 98617,
+        "losses": 125278,
+        "ties": 11305,
+        "total": 235200,
+        "win rate": 0.42
+    },
+    "T4s": {
+        "wins": 34658,
+        "losses": 40000,
+        "ties": 3742,
+        "total": 78400,
+        "win rate": 0.44
+    },
+    "T4o": {
+        "wins": 96696,
+        "losses": 127015,
+        "ties": 11489,
+        "total": 235200,
+        "win rate": 0.41
+    },
+    "T3s": {
+        "wins": 34018,
+        "losses": 40730,
+        "ties": 3652,
+        "total": 78400,
+        "win rate": 0.43
+    },
+    "T3o": {
+        "wins": 94116,
+        "losses": 129593,
+        "ties": 11491,
+        "total": 235200,
+        "win rate": 0.4
+    },
+    "T2s": {
+        "wins": 33278,
+        "losses": 41357,
+        "ties": 3765,
+        "total": 78400,
+        "win rate": 0.42
+    },
+    "T2o": {
+        "wins": 92032,
+        "losses": 131698,
+        "ties": 11470,
+        "total": 235200,
+        "win rate": 0.39
+    },
+    "99o": {
+        "wins": 84129,
+        "losses": 32531,
+        "ties": 940,
+        "total": 117600,
+        "win rate": 0.72
+    },
+    "98s": {
+        "wins": 38150,
+        "losses": 37256,
+        "ties": 2994,
+        "total": 78400,
+        "win rate": 0.49
+    },
+    "98o": {
+        "wins": 108608,
+        "losses": 117022,
+        "ties": 9570,
+        "total": 235200,
+        "win rate": 0.46
+    },
+    "97s": {
+        "wins": 36914,
+        "losses": 38124,
+        "ties": 3362,
+        "total": 78400,
+        "win rate": 0.47
+    },
+    "97o": {
+        "wins": 103687,
+        "losses": 120938,
+        "ties": 10575,
+        "total": 235200,
+        "win rate": 0.44
+    },
+    "96s": {
+        "wins": 35383,
+        "losses": 39453,
+        "ties": 3564,
+        "total": 78400,
+        "win rate": 0.45
+    },
+    "96o": {
+        "wins": 99148,
+        "losses": 124800,
+        "ties": 11252,
+        "total": 235200,
+        "win rate": 0.42
+    },
+    "95s": {
+        "wins": 34045,
+        "losses": 40529,
+        "ties": 3826,
+        "total": 78400,
+        "win rate": 0.43
+    },
+    "95o": {
+        "wins": 94298,
+        "losses": 129058,
+        "ties": 11844,
+        "total": 235200,
+        "win rate": 0.4
+    },
+    "94s": {
+        "wins": 32537,
+        "losses": 42101,
+        "ties": 3762,
+        "total": 78400,
+        "win rate": 0.42
+    },
+    "94o": {
+        "wins": 89489,
+        "losses": 133647,
+        "ties": 12064,
+        "total": 235200,
+        "win rate": 0.38
+    },
+    "93s": {
+        "wins": 31879,
+        "losses": 42641,
+        "ties": 3880,
+        "total": 78400,
+        "win rate": 0.41
+    },
+    "93o": {
+        "wins": 87729,
+        "losses": 135200,
+        "ties": 12271,
+        "total": 235200,
+        "win rate": 0.37
+    },
+    "92s": {
+        "wins": 31480,
+        "losses": 43040,
+        "ties": 3880,
+        "total": 78400,
+        "win rate": 0.4
+    },
+    "92o": {
+        "wins": 85964,
+        "losses": 137119,
+        "ties": 12117,
+        "total": 235200,
+        "win rate": 0.37
+    },
+    "88o": {
+        "wins": 80708,
+        "losses": 35868,
+        "ties": 1024,
+        "total": 117600,
+        "win rate": 0.69
+    },
+    "87s": {
+        "wins": 35788,
+        "losses": 39143,
+        "ties": 3469,
+        "total": 78400,
+        "win rate": 0.46
+    },
+    "87o": {
+        "wins": 100066,
+        "losses": 123925,
+        "ties": 11209,
+        "total": 235200,
+        "win rate": 0.43
+    },
+    "86s": {
+        "wins": 34522,
+        "losses": 40162,
+        "ties": 3716,
+        "total": 78400,
+        "win rate": 0.44
+    },
+    "86o": {
+        "wins": 95922,
+        "losses": 127328,
+        "ties": 11950,
+        "total": 235200,
+        "win rate": 0.41
+    },
+    "85s": {
+        "wins": 32735,
+        "losses": 41592,
+        "ties": 4073,
+        "total": 78400,
+        "win rate": 0.42
+    },
+    "85o": {
+        "wins": 90907,
+        "losses": 131631,
+        "ties": 12662,
+        "total": 235200,
+        "win rate": 0.39
+    },
+    "84s": {
+        "wins": 31451,
+        "losses": 42799,
+        "ties": 4150,
+        "total": 78400,
+        "win rate": 0.4
+    },
+    "84o": {
+        "wins": 86040,
+        "losses": 136174,
+        "ties": 12986,
+        "total": 235200,
+        "win rate": 0.37
+    },
+    "83s": {
+        "wins": 30045,
+        "losses": 44292,
+        "ties": 4063,
+        "total": 78400,
+        "win rate": 0.38
+    },
+    "83o": {
+        "wins": 81454,
+        "losses": 140712,
+        "ties": 13034,
+        "total": 235200,
+        "win rate": 0.35
+    },
+    "82s": {
+        "wins": 29538,
+        "losses": 44785,
+        "ties": 4077,
+        "total": 78400,
+        "win rate": 0.38
+    },
+    "82o": {
+        "wins": 80255,
+        "losses": 142001,
+        "ties": 12944,
+        "total": 235200,
+        "win rate": 0.34
+    },
+    "77o": {
+        "wins": 77254,
+        "losses": 39194,
+        "ties": 1152,
+        "total": 117600,
+        "win rate": 0.66
+    },
+    "76s": {
+        "wins": 33715,
+        "losses": 40727,
+        "ties": 3958,
+        "total": 78400,
+        "win rate": 0.43
+    },
+    "76o": {
+        "wins": 93038,
+        "losses": 129616,
+        "ties": 12546,
+        "total": 235200,
+        "win rate": 0.4
+    },
+    "75s": {
+        "wins": 32090,
+        "losses": 42012,
+        "ties": 4298,
+        "total": 78400,
+        "win rate": 0.41
+    },
+    "75o": {
+        "wins": 88685,
+        "losses": 133195,
+        "ties": 13320,
+        "total": 235200,
+        "win rate": 0.38
+    },
+    "74s": {
+        "wins": 30600,
+        "losses": 43504,
+        "ties": 4296,
+        "total": 78400,
+        "win rate": 0.39
+    },
+    "74o": {
+        "wins": 83520,
+        "losses": 138078,
+        "ties": 13602,
+        "total": 235200,
+        "win rate": 0.36
+    },
+    "73s": {
+        "wins": 29387,
+        "losses": 44792,
+        "ties": 4221,
+        "total": 78400,
+        "win rate": 0.37
+    },
+    "73o": {
+        "wins": 79671,
+        "losses": 141979,
+        "ties": 13550,
+        "total": 235200,
+        "win rate": 0.34
+    },
+    "72s": {
+        "wins": 27870,
+        "losses": 46284,
+        "ties": 4246,
+        "total": 78400,
+        "win rate": 0.36
+    },
+    "72o": {
+        "wins": 74311,
+        "losses": 147326,
+        "ties": 13563,
+        "total": 235200,
+        "win rate": 0.32
+    },
+    "66o": {
+        "wins": 73659,
+        "losses": 42588,
+        "ties": 1353,
+        "total": 117600,
+        "win rate": 0.63
+    },
+    "65s": {
+        "wins": 31763,
+        "losses": 42261,
+        "ties": 4376,
+        "total": 78400,
+        "win rate": 0.41
+    },
+    "65o": {
+        "wins": 86910,
+        "losses": 134536,
+        "ties": 13754,
+        "total": 235200,
+        "win rate": 0.37
+    },
+    "64s": {
+        "wins": 30226,
+        "losses": 43689,
+        "ties": 4485,
+        "total": 78400,
+        "win rate": 0.39
+    },
+    "64o": {
+        "wins": 82327,
+        "losses": 138632,
+        "ties": 14241,
+        "total": 235200,
+        "win rate": 0.35
+    },
+    "63s": {
+        "wins": 28643,
+        "losses": 45290,
+        "ties": 4467,
+        "total": 78400,
+        "win rate": 0.37
+    },
+    "63o": {
+        "wins": 78055,
+        "losses": 142999,
+        "ties": 14146,
+        "total": 235200,
+        "win rate": 0.33
+    },
+    "62s": {
+        "wins": 27306,
+        "losses": 46659,
+        "ties": 4435,
+        "total": 78400,
+        "win rate": 0.35
+    },
+    "62o": {
+        "wins": 73298,
+        "losses": 147885,
+        "ties": 14017,
+        "total": 235200,
+        "win rate": 0.31
+    },
+    "55o": {
+        "wins": 70153,
+        "losses": 45864,
+        "ties": 1583,
+        "total": 117600,
+        "win rate": 0.6
+    },
+    "54s": {
+        "wins": 30196,
+        "losses": 43623,
+        "ties": 4581,
+        "total": 78400,
+        "win rate": 0.39
+    },
+    "54o": {
+        "wins": 82766,
+        "losses": 137971,
+        "ties": 14463,
+        "total": 235200,
+        "win rate": 0.35
+    },
+    "53s": {
+        "wins": 28831,
+        "losses": 44929,
+        "ties": 4640,
+        "total": 78400,
+        "win rate": 0.37
+    },
+    "53o": {
+        "wins": 77889,
+        "losses": 142692,
+        "ties": 14619,
+        "total": 235200,
+        "win rate": 0.33
+    },
+    "52s": {
+        "wins": 27277,
+        "losses": 46520,
+        "ties": 4603,
+        "total": 78400,
+        "win rate": 0.35
+    },
+    "52o": {
+        "wins": 73525,
+        "losses": 147350,
+        "ties": 14325,
+        "total": 235200,
+        "win rate": 0.31
+    },
+    "44o": {
+        "wins": 66327,
+        "losses": 49555,
+        "ties": 1718,
+        "total": 117600,
+        "win rate": 0.56
+    },
+    "43s": {
+        "wins": 28032,
+        "losses": 45758,
+        "ties": 4610,
+        "total": 78400,
+        "win rate": 0.36
+    },
+    "43o": {
+        "wins": 75402,
+        "losses": 145317,
+        "ties": 14481,
+        "total": 235200,
+        "win rate": 0.32
+    },
+    "42s": {
+        "wins": 26622,
+        "losses": 47217,
+        "ties": 4561,
+        "total": 78400,
+        "win rate": 0.34
+    },
+    "42o": {
+        "wins": 70592,
+        "losses": 150137,
+        "ties": 14471,
+        "total": 235200,
+        "win rate": 0.3
+    },
+    "33o": {
+        "wins": 62077,
+        "losses": 53522,
+        "ties": 2001,
+        "total": 117600,
+        "win rate": 0.53
+    },
+    "32s": {
+        "wins": 26111,
+        "losses": 47799,
+        "ties": 4490,
+        "total": 78400,
+        "win rate": 0.33
+    },
+    "32o": {
+        "wins": 69381,
+        "losses": 151538,
+        "ties": 14281,
+        "total": 235200,
+        "win rate": 0.29
+    },
+    "22o": {
+        "wins": 57851,
+        "losses": 57492,
+        "ties": 2257,
+        "total": 117600,
+        "win rate": 0.49
+    }
+}
