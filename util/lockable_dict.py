@@ -1,10 +1,10 @@
-# this is a dictionary object except multithread friendly
-# meaning that there is a lock for each key/value pair
-
 import threading
 
 
 class LockableDict:
+    """
+    This class is a dictionary object that is multithread friendly. It has a lock for each key/value pair.
+    """
     def __init__(self, reward_fn: str):
         self.reward_fn = reward_fn
 
@@ -87,3 +87,4 @@ class LockableDict:
             if key not in self.locks:
                 self.locks[key] = threading.Lock()
             return self.locks[key]
+        
