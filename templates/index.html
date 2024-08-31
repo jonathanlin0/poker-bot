@@ -10,6 +10,12 @@
             position: relative;
             margin-bottom: 20px;
             min-width: 250px; /* Set minimum width */
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add depth with shadow */
+            transition: box-shadow 0.2s; /* Smooth transition for shadow effect */
+        }
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
         }
         .status-badge {
             position: absolute;
@@ -32,6 +38,41 @@
         .args-text {
             font-size: 0.8em; /* Smaller text for arguments */
             color: #666; /* Lighter color for distinction */
+        }
+        /* CSS for custom-button class */
+        .custom-button {
+            appearance: none;
+            background-color: transparent;
+            border: 2px solid #1A1A1A;
+            border-radius: 15px;
+            box-sizing: border-box;
+            color: #3B3B3B;
+            cursor: pointer;
+            display: inline-block;
+            font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            font-size: 16px;
+            font-weight: 600;
+            line-height: normal;
+            margin: 0;
+            outline: none;
+            padding: 6px 12px; /* Adjust padding to match Bootstrap buttons */
+            text-align: center;
+            text-decoration: none;
+            transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .custom-button:disabled {
+            pointer-events: none;
+        }
+        .custom-button:hover {
+            color: #fff;
+            background-color: #1A1A1A;
+            box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+        }
+        .custom-button:active {
+            box-shadow: none;
         }
     </style>
 </head>
@@ -60,14 +101,14 @@
                         <p class="card-text"><strong>Data/Weights Loaded:</strong> {{ experiment.data_loaded }}</p>
                         <!-- Button to load data -->
                         <form action="{{ url_for('load_data', experiment_name=key) }}" method="post" style="display: inline-block;">
-                            <button type="submit" class="btn btn-primary" 
+                            <button type="submit" class="custom-button" 
                                 {% if experiment.data_loaded %} disabled {% endif %}>
                                 Load Data
                             </button>
                         </form>
                         <!-- Button to save data -->
                         <form action="{{ url_for('save_data', experiment_name=key) }}" method="post" style="display: inline-block;">
-                            <button type="submit" class="btn btn-secondary">
+                            <button type="submit" class="custom-button">
                                 Save Data
                             </button>
                         </form>
