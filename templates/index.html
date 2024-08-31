@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiments Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card {
+            position: relative;
+            margin-bottom: 20px;
+            min-width: 250px; /* Set minimum width */
+        }
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.8em;
+        }
+        .status-training {
+            background-color: green;
+        }
+        .status-writing {
+            background-color: orange;
+        }
+        .status-off {
+            background-color: red;
+        }
+        .args-text {
+            font-size: 0.8em; /* Smaller text for arguments */
+            color: #666; /* Lighter color for distinction */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Use the g-4 class to ensure gutter (spacing) between columns -->
+        <div class="row g-4">
+            {% for key, experiment in experiments.items() %}
+            <!-- Column with Bootstrap's grid system to ensure proper spacing -->
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Status Badge -->
+                        <span class="status-badge 
+                            {% if experiment.status == 'training' %}status-training
+                            {% elif experiment.status == 'writing' %}status-writing
+                            {% else %}status-off{% endif %}">
+                            {{ experiment.status.capitalize() }}
+                        </span>
+                        <!-- Experiment Details -->
+                        <h5 class="card-title">{{ experiment.name }}</h5>
+                        <p class="card-text">{{ experiment.description }}</p>
+                        <!-- Display Epoch Count -->
+                        <p class="card-text"><strong>Epoch:</strong> {{ experiment.epoch }}</p>
+                        <!-- Display Data Loaded Status -->
+                        <p class="card-text"><strong>Data/Weights Loaded:</strong> {{ experiment.data_loaded }}</p>
+                        <!-- Button to load data -->
+                        <form action="{{ url_for('load_data', experiment_name=key) }}" method="post" style="display: inline-block;">
+                            <button type="submit" class="btn btn-primary" 
+                                {% if experiment.data_loaded %} disabled {% endif %}>
+                                Load Data
+                            </button>
+                        </form>
+                        <!-- Button to save data -->
+                        <form action="{{ url_for('save_data', experiment_name=key) }}" method="post" style="display: inline-block;">
+                            <button type="submit" class="btn btn-secondary">
+                                Save Data
+                            </button>
+                        </form>
+                        <p class="card-text"><small class="text-muted">Puppet: {{ experiment.puppet }}</small></p>
+                        <!-- Display Arguments -->
+                        <div class="args-text mt-2">
+                            <strong>Arguments:</strong>
+                            <ul class="list-unstyled">
+                                {% for arg_key, arg_value in experiment.args.items() %}
+                                <li>{{ arg_key }}: {{ arg_value }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

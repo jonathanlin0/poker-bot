@@ -1,0 +1,55 @@
+{
+    "experiments": {
+        "experiment1": {
+            "name": "experiment1",
+            "puppet": "bangkok",
+            "description": "This is a test experiment",
+            "status": "training",
+            "epoch": 0,
+            "data_loaded": true,
+            "created_at": 0,
+            "updated_at": 0,
+            "args": {
+                "reward_fn": "default",
+                "update_interval_epochs": 5000,
+                "exploit_test_multiplier": 2,
+                "num_exploit_hands": 20000,
+                "equities_folder": "calculators/equities/equities_1"
+            }
+        },
+        "experiment2": {
+            "name": "experiment2",
+            "puppet": "bangkok",
+            "description": "This is a test experiment",
+            "status": "writing",
+            "epoch": 0,
+            "data_loaded": false,
+            "created_at": 0,
+            "updated_at": 0,
+            "args": {
+                "reward_fn": "default",
+                "update_interval_epochs": 5000,
+                "exploit_test_multiplier": 2,
+                "num_exploit_hands": 20000,
+                "equities_folder": "calculators/equities/equities_1"
+            }
+        },
+        "experiment3": {
+            "name": "experiment3",
+            "puppet": "bangkok",
+            "description": "This is a test experiment",
+            "status": "off",
+            "epoch": 0,
+            "data_loaded": false,
+            "created_at": 0,
+            "updated_at": 0,
+            "args": {
+                "reward_fn": "default",
+                "update_interval_epochs": 5000,
+                "exploit_test_multiplier": 2,
+                "num_exploit_hands": 20000,
+                "equities_folder": "calculators/equities/equities_1"
+            }
+        }
+    }
+}
