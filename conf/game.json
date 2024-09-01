@@ -1,0 +1,5 @@
+{
+    "max_raises_per_round": 3,
+    "starting_stack_size": 100,
+    "infoset_delim": "-"
+}
