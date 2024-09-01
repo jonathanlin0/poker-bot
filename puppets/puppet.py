@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Dict, Union
 
 class Puppet(ABC):
 
@@ -9,9 +9,21 @@ class Puppet(ABC):
             raise NotImplementedError("Puppet subclass must have a version attribute. This defines the version of the weights the current run is using.")
         
     @abstractmethod
-    def train(self):
+    def train(self, epochs: int):
         """
         This function trains the model using the data that is stored in the model's internal state. It assumes that load_data has been called before this function.
+        This function trains the model for the specified number of epochs.
+        The specific puppet should keep track of the number of epochs it has been trained for.
+        The epochs parameter here just represents how many additional epochs the model should be trained for.
+        """
+        pass
+
+    @abstractmethod
+    def validation_test(self):
+        """
+        This is a function does any 'validation' testing for the machine learning program.
+        In the case of the poker bot, the 'validation testing' would be testing the exploitability of the bot.
+        This function should also take care of saving any results from the validation testing.
         """
         pass
 
@@ -31,7 +43,7 @@ class Puppet(ABC):
         pass
 
     @abstractmethod
-    def get_pdf(self, board: List[str], hand: List[str], betting_history: List[str]) -> List[float]:
+    def get_pdf(self, board: List[str], hand: List[str], betting_history: List[str]) -> Dict[Union[float, str], float]:
         """
         This function takes in the current state of the game (board, hand, betting_history) and returns the probability distribution of the bot's actions. It assumes that load_data has been called before this function.
         """
