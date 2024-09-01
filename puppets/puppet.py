@@ -9,6 +9,14 @@ class Puppet(ABC):
             raise NotImplementedError("Puppet subclass must have a version attribute. This defines the version of the weights the current run is using.")
         
     @abstractmethod
+    def setup_data(self, weights_path: str) -> None:
+        """
+        This function sets up the data for the model/experiment that is about to be trained. This functino should be called before any other function is called.
+        This function can also be called to reset the data for the model/experiment.
+        """
+        pass
+    
+    @abstractmethod
     def train(self, epochs: int):
         """
         This function trains the model using the data that is stored in the model's internal state. It assumes that load_data has been called before this function.
