@@ -17,16 +17,19 @@ def get_random_string(length):
     return ''.join(random.choice(letters) for i in range(length))
 
 # Load JSON data as a dictionary
-def load_experiments_data():
-    with open('database.json') as f:
-        data = json.load(f)
-    # Set 'data_loaded' to False for all experiments whenever the JSON file is loaded
-    for experiment in data["experiments"].values():
-        experiment["data_loaded"] = False
-    return data
+def load_json_data(file_path):
+    with open(file_path) as f:
+        return json.load(f)
+
+# Load puppet configuration
+puppet_config = load_json_data('conf/puppets.json')
+
+# Load experiments data
+experiments_data = load_json_data('database.json')
 
 # Initialize experiments data
-experiments_data = load_experiments_data()
+for experiment in experiments_data["experiments"].values():
+    experiment["data_loaded"] = False
 
 # Initialize the dictionary for mapping experiment names to Bangkok model objects
 experiment_to_model_obj = {}
@@ -53,7 +56,7 @@ for experiment_name, experiment_info in experiments_data["experiments"].items():
 @app.route('/')
 def home():
     experiments = experiments_data["experiments"]
-    return render_template('index.html', experiments=experiments)
+    return render_template('index.html', experiments=experiments, puppet_config=puppet_config)
 
 @app.route('/load_data/<experiment_name>', methods=['POST'])
 def load_data(experiment_name):
@@ -86,5 +89,31 @@ def save_data(experiment_name):
 
     return redirect(url_for('home'))
 
+@app.route('/update_experiment/<experiment_name>/<param>', methods=['POST'])
+def update_experiment(experiment_name, param):
+    # Get the new value from the form
+    new_value = request.form.get('new_value')
+    
+    # Convert new_value to the appropriate type
+    if param in ['update_interval_epochs', 'num_exploit_hands']:
+        new_value = int(new_value)
+    elif param == 'exploit_test_multiplier':
+        new_value = float(new_value)
+
+    # Update the JSON data with the new value
+    if experiment_name in experiments_data["experiments"]:
+        experiments_data["experiments"][experiment_name]["args"][param] = new_value
+
+        # Save the updated data back to the JSON file to persist changes
+        with open('database.json', 'w') as f:
+            json.dump(experiments_data, f, indent=4)
+
+        # Also update the Bangkok model object if it exists
+        model = experiment_to_model_obj.get(experiment_name)
+        if model:
+            setattr(model, param, new_value)
+
+    return redirect(url_for('home'))
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port="5001")
