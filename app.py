@@ -5,35 +5,98 @@ import random
 import string
 from puppets.bangkok import Bangkok  # Import the Bangkok class
 from conf.config_game import ConfigGame  # Assuming you have this imported from your conf
+import sqlite3
 
 app = Flask(__name__)
 
 # Get the directory of the current file
 current_file_directory = os.path.dirname(os.path.abspath(__file__))
 
-# Generate a random string of the specified length
-def get_random_string(length):
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(length))
-
 # Load JSON data as a dictionary
 def load_json_data(file_path):
     with open(file_path) as f:
         return json.load(f)
+    
+def update_experiment_column(db_path: str, experiment_name: str, column_name: str, new_value: str) -> None:
+    """
+    Update a specific column in the experiments table for a given experiment name.
+
+    Args:
+        db_path (str): The path to the SQLite database file.
+        experiment_name (str): The name of the experiment to update.
+        column_name (str): The column name to update.
+        new_value (str): The new value to set for the specified column.
+    """
+    # Connect to the SQLite database
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+
+    # Prepare the SQL query to update the specific column
+    query = f"UPDATE experiments SET {column_name} = ? WHERE name = ?"
+
+    try:
+        # Execute the SQL query
+        cursor.execute(query, (new_value, experiment_name))
+        # Commit the changes
+        connection.commit()
+        print(f"Updated {column_name} for experiment '{experiment_name}' successfully.")
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+    finally:
+        # Close the connection
+        connection.close()
+
+# Reconnect to the database
+connection = sqlite3.connect('experiments.db')
+cursor = connection.cursor()
+
+# Retrieve all experiments
+cursor.execute('SELECT * FROM experiments')
+rows = cursor.fetchall()
+
+experiments_data = {"experiments": {}}
+# Process the results
+for row in rows:
+    name = row[0]
+    puppet = row[1]
+    description = row[2]
+    status = row[3]
+    epoch = row[4]
+    data_loaded = row[5]
+    created_at = row[6]
+    updated_at = row[7]
+    args = json.loads(row[8])  # Deserialize the JSON string back into a dictionary
+
+    # print(data_loaded)
+    # print(f'Experiment {name} with args: {args}')
+
+    experiments_data["experiments"][name] = {
+        "name": name,
+        "puppet": puppet,
+        "description": description,
+        "status": status,
+        "epoch": epoch,
+        "data_loaded": bool(data_loaded),
+        "created_at": created_at,
+        "updated_at": updated_at,
+        "args": args
+    }
+    
+# Close the connection
+connection.close()
 
 # Load puppet configuration
 puppet_config = load_json_data('conf/puppets.json')
 
-# Load experiments data
-experiments_data = load_json_data('database.json')
-
 # Initialize experiments data
-for experiment in experiments_data["experiments"].values():
-    experiment["data_loaded"] = False
+for experiment_name in experiments_data["experiments"]:
+    experiments_data["experiments"][experiment_name]["data_loaded"] = False
+    update_experiment_column('experiments.db', experiment_name, "data_loaded", False)
 
 # ensure all experiments start off as off
 for experiment in experiments_data["experiments"]:
     experiments_data["experiments"][experiment]["status"] = "off"
+    update_experiment_column('experiments.db', experiment, "status", "off")
 
 # Initialize the dictionary for mapping experiment names to Bangkok model objects
 experiment_to_model_obj = {}
@@ -76,9 +139,8 @@ def load_data(experiment_name):
         # Update the JSON data to reflect that data has been loaded
         experiments_data["experiments"][experiment_name]["data_loaded"] = True
 
-        # Save the updated data back to the JSON file to persist changes
-        with open('database.json', 'w') as f:
-            json.dump(experiments_data, f, indent=4)
+        db_path = 'experiments.db'
+        update_experiment_column(db_path, experiment_name, "data_loaded", True)
 
     return redirect(url_for('home'))
 
@@ -94,9 +156,8 @@ def update_experiment(experiment_name, param):
     if experiment_name in experiments_data["experiments"]:
         experiments_data["experiments"][experiment_name]["args"][param] = new_value
 
-        # Save the updated data back to the JSON file to persist changes
-        with open('database.json', 'w') as f:
-            json.dump(experiments_data, f, indent=4)
+        db_path = 'experiments.db'
+        update_experiment_column(db_path, experiment_name, "args", json.dumps(experiments_data["experiments"][experiment_name]["args"]))
 
         # Also update the Bangkok model object if it exists
         model = experiment_to_model_obj.get(experiment_name)
