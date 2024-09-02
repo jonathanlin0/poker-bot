@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 import json
-import random
-import string
 from puppets.bangkok import Bangkok  # Import the Bangkok class
 from conf.config_game import ConfigGame  # Assuming you have this imported from your conf
 import sqlite3
+import subprocess
+from util.db import DB
 
 app = Flask(__name__)
 
@@ -16,35 +16,6 @@ current_file_directory = os.path.dirname(os.path.abspath(__file__))
 def load_json_data(file_path):
     with open(file_path) as f:
         return json.load(f)
-    
-def update_experiment_column(db_path: str, experiment_name: str, column_name: str, new_value: str) -> None:
-    """
-    Update a specific column in the experiments table for a given experiment name.
-
-    Args:
-        db_path (str): The path to the SQLite database file.
-        experiment_name (str): The name of the experiment to update.
-        column_name (str): The column name to update.
-        new_value (str): The new value to set for the specified column.
-    """
-    # Connect to the SQLite database
-    connection = sqlite3.connect(db_path)
-    cursor = connection.cursor()
-
-    # Prepare the SQL query to update the specific column
-    query = f"UPDATE experiments SET {column_name} = ? WHERE name = ?"
-
-    try:
-        # Execute the SQL query
-        cursor.execute(query, (new_value, experiment_name))
-        # Commit the changes
-        connection.commit()
-        print(f"Updated {column_name} for experiment '{experiment_name}' successfully.")
-    except sqlite3.Error as e:
-        print(f"An error occurred: {e}")
-    finally:
-        # Close the connection
-        connection.close()
 
 # Reconnect to the database
 connection = sqlite3.connect('experiments.db')
@@ -67,9 +38,6 @@ for row in rows:
     updated_at = row[7]
     args = json.loads(row[8])  # Deserialize the JSON string back into a dictionary
 
-    # print(data_loaded)
-    # print(f'Experiment {name} with args: {args}')
-
     experiments_data["experiments"][name] = {
         "name": name,
         "puppet": puppet,
@@ -91,12 +59,12 @@ puppet_config = load_json_data('conf/puppets.json')
 # Initialize experiments data
 for experiment_name in experiments_data["experiments"]:
     experiments_data["experiments"][experiment_name]["data_loaded"] = False
-    update_experiment_column('experiments.db', experiment_name, "data_loaded", False)
+    DB.update_experiment_column('experiments.db', experiment_name, "data_loaded", False)
 
 # ensure all experiments start off as off
 for experiment in experiments_data["experiments"]:
     experiments_data["experiments"][experiment]["status"] = "off"
-    update_experiment_column('experiments.db', experiment, "status", "off")
+    DB.update_experiment_column('experiments.db', experiment, "status", "off")
 
 # Initialize the dictionary for mapping experiment names to Bangkok model objects
 experiment_to_model_obj = {}
@@ -140,7 +108,7 @@ def load_data(experiment_name):
         experiments_data["experiments"][experiment_name]["data_loaded"] = True
 
         db_path = 'experiments.db'
-        update_experiment_column(db_path, experiment_name, "data_loaded", True)
+        DB.update_experiment_column(db_path, experiment_name, "data_loaded", True)
 
     return redirect(url_for('home'))
 
@@ -157,7 +125,7 @@ def update_experiment(experiment_name, param):
         experiments_data["experiments"][experiment_name]["args"][param] = new_value
 
         db_path = 'experiments.db'
-        update_experiment_column(db_path, experiment_name, "args", json.dumps(experiments_data["experiments"][experiment_name]["args"]))
+        DB.update_experiment_column(db_path, experiment_name, "args", json.dumps(experiments_data["experiments"][experiment_name]["args"]))
 
         # Also update the Bangkok model object if it exists
         model = experiment_to_model_obj.get(experiment_name)
@@ -165,6 +133,44 @@ def update_experiment(experiment_name, param):
             setattr(model, param, new_value)
 
     return redirect(url_for('home'))
+
+@app.route('/train_experiment/<experiment_name>', methods=['POST'])
+def train_experiment(experiment_name):
+    """
+    Triggers the training script for the specified experiment.
+    """
+    # Define the path to the train.py script
+    train_script_path = os.path.join(os.getcwd(), 'train.py')
+
+    try:
+        # Run the train.py script with the experiment name as an argument
+        subprocess.run(['python', train_script_path, experiment_name], check=True)
+        print(f"Training script executed for experiment: {experiment_name}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error running training script: {e}")
+
+    return redirect(url_for('home'))
+
+@app.route('/check_status', methods=['GET'])
+def check_status():
+    """
+    Returns the current status of all experiments in JSON format.
+    """
+    # Reconnect to the database to fetch the latest status
+    connection = sqlite3.connect('experiments.db')
+    cursor = connection.cursor()
+
+    # Retrieve the latest status of all experiments
+    cursor.execute('SELECT name, status FROM experiments')
+    rows = cursor.fetchall()
+
+    # Prepare the status data
+    status_data = {name: status for name, status in rows}
+    
+    # Close the connection
+    connection.close()
+
+    return jsonify(status_data)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port="5001")

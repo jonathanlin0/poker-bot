@@ -82,8 +82,8 @@
         }
         input:focus {
             outline: none;
-            box-shadow: none !important; /* Remove any default focus shadow */
-            border-color: inherit; /* Retain original border color */
+            box-shadow: none !important;
+            border-color: inherit;
         }
     </style>
 </head>
@@ -94,7 +94,8 @@
             <div class="col-12 col-sm-6 col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <span class="status-badge 
+                        <!-- Give each status badge a unique ID based on the experiment name -->
+                        <span id="{{ experiment.name }}-status-badge" class="status-badge 
                             {% if experiment.status == 'training' %}status-training
                             {% elif experiment.status == 'writing' %}status-writing
                             {% else %}status-off{% endif %}">
@@ -125,6 +126,12 @@
                                 Load Data
                             </button>
                         </form>
+
+                        <!-- Train button -->
+                        <form action="{{ url_for('train_experiment', experiment_name=key) }}" method="post" style="display: inline-block; margin-top: 10px;">
+                            <button type="submit" class="custom-button">Train</button>
+                        </form>
+                        
                         <p class="card-text"><small class="text-muted">Puppet: {{ experiment.puppet }}</small></p>
                         <div class="args-text mt-2">
                             <strong>Arguments:</strong>
@@ -141,8 +148,36 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript for checking status updates -->
+    <script>
+        // Function to periodically check the status of experiments
+        function checkStatusUpdates() {
+            $.getJSON("{{ url_for('check_status') }}", function(statusData) {
+                for (const [experimentName, status] of Object.entries(statusData)) {
+                    // Find the status badge element corresponding to the experiment
+                    const statusBadge = document.getElementById(`${experimentName}-status-badge`);
+                    
+                    // Update the status badge text and class based on the new status
+                    statusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);  // Capitalize the first letter
+                    
+                    if (status === 'training') {
+                        statusBadge.className = 'status-badge status-training';
+                    } else if (status === 'writing') {
+                        statusBadge.className = 'status-badge status-writing';
+                    } else {
+                        statusBadge.className = 'status-badge status-off';
+                    }
+                }
+            });
+        }
+
+        // Call the checkStatusUpdates function every 5 seconds (5000 milliseconds)
+        setInterval(checkStatusUpdates, 5000);
+    </script>
 </body>
 </html>
