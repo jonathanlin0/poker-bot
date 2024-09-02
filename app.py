@@ -31,6 +31,10 @@ experiments_data = load_json_data('database.json')
 for experiment in experiments_data["experiments"].values():
     experiment["data_loaded"] = False
 
+# ensure all experiments start off as off
+for experiment in experiments_data["experiments"]:
+    experiments_data["experiments"][experiment]["status"] = "off"
+
 # Initialize the dictionary for mapping experiment names to Bangkok model objects
 experiment_to_model_obj = {}
 
@@ -78,27 +82,13 @@ def load_data(experiment_name):
 
     return redirect(url_for('home'))
 
-@app.route('/save_data/<experiment_name>', methods=['POST'])
-def save_data(experiment_name):
-    # Get the corresponding Bangkok model object
-    model = experiment_to_model_obj.get(experiment_name)
-    
-    # Run the model's write_data function with the specified file path
-    if model:
-        model.write_data('data/bangkok_1')  # Save data to the specified path
-
-    return redirect(url_for('home'))
-
 @app.route('/update_experiment/<experiment_name>/<param>', methods=['POST'])
 def update_experiment(experiment_name, param):
     # Get the new value from the form
     new_value = request.form.get('new_value')
     
     # Convert new_value to the appropriate type
-    if param in ['update_interval_epochs', 'num_exploit_hands']:
-        new_value = int(new_value)
-    elif param == 'exploit_test_multiplier':
-        new_value = float(new_value)
+    new_value = int(new_value) if new_value.isdigit() else float(new_value)
 
     # Update the JSON data with the new value
     if experiment_name in experiments_data["experiments"]:
