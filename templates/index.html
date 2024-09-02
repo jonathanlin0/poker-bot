@@ -125,12 +125,6 @@
                                 Load Data
                             </button>
                         </form>
-                        <!-- Button to save data -->
-                        <form action="{{ url_for('save_data', experiment_name=key) }}" method="post" style="display: inline-block;">
-                            <button type="submit" class="custom-button">
-                                Save Data
-                            </button>
-                        </form>
                         <p class="card-text"><small class="text-muted">Puppet: {{ experiment.puppet }}</small></p>
                         <div class="args-text mt-2">
                             <strong>Arguments:</strong>
