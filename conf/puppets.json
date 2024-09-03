@@ -1,0 +1,38 @@
+{
+    "bangkok": {
+        "description": "The base model",
+        "bucket_calculator_version": 1,
+        "args": {
+            "reward_fn": {
+                "description": "The reward function. So, how to process chips won or loss for the learning function.",
+                "default": "default",
+                "options": ["default", "linear", "poly", "default_exp"],
+                "configurable": false
+            },
+            "update_interval_epochs": {
+                "description": "How often the weights are saved during training. So, the weights are saved every update_interval_epochs epochs",
+                "default": 5000,
+                "options": [500, 1000, 5000, 10000, 25000, 50000],
+                "configurable": true
+            },
+            "exploit_test_multiplier": {
+                "description": "How often to test the exploitability based on the update_interval_epochs. So, if update_interval_epochs = 2 and exploit_test_multiplier = 3, then exploitability is tested every 6 epochs.",
+                "default": 2,
+                "options": [1, 2, 5, 10, 25],
+                "configurable": true
+            },
+            "num_exploit_hands": {
+                "description": "The number of hands to test for the exploitability test.",
+                "default": 20000,
+                "options": [1000, 2000, 5000, 10000, 20000, 50000],
+                "configurable": true
+            },
+            "equities_folder": {
+                "description": "The folder where the equities are stored. Equities are the win percentage for a given infoset, given a uniform distribution of the opponent's cards.",
+                "default": "calculators/equities/equities_1",
+                "options": ["calculators/equities/equities_1"],
+                "configurable": false
+            }
+        }
+    }
+}
