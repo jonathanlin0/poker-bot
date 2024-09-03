@@ -76,9 +76,26 @@
         .custom-button:active {
             box-shadow: none;
         }
+        .stop-button {
+            border-color: darkred;
+            color: darkred;
+        }
+        .stop-button:hover {
+            background-color: darkred;
+            color: #fff;
+            box-shadow: rgba(139, 0, 0, 0.25) 0 8px 15px;
+        }
+        .stop-button:disabled {
+            pointer-events: none;
+            background-color: #e0e0e0;
+            color: #888;
+            border-color: #e0e0e0;
+        }
         .form-label {
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
+            font-size: 0.8em;
+            color: #666;
         }
         input:focus {
             outline: none;
