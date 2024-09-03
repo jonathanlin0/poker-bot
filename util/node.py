@@ -3,6 +3,7 @@ class Node:
     This is the key in the lockable dictionary for the CFR algorithm.
     It contains the regret sum, strategy, and strategy sum for each infoset.
     """
+    
     # min_regret_threshold is in terms of the prob of action
     # so the probability of any action is at least 0.5%
     # allows more coverage and exploration of game tree

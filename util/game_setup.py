@@ -4,8 +4,9 @@ import os
 
 
 class GameSetup:
-    def __init__(self):
-        pass
+    """
+    Class to get attributes about the poker game
+    """
 
     @staticmethod
     def get_raise_vals_preflop():
