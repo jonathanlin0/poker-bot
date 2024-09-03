@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 import json
-from puppets.bangkok import Bangkok  # Import the Bangkok class
-from conf.config_game import ConfigGame  # Assuming you have this imported from your conf
+from puppets.bangkok import Bangkok
+from conf.config_game import ConfigGame
 import sqlite3
 import subprocess
 from util.db import DB
