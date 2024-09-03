@@ -134,8 +134,9 @@ def update_experiment(experiment_name, param):
 
     return redirect(url_for('home'))
 
-# Keep track of running scripts
+# Keep track of running scripts and their processes
 running_scripts = {}
+processes = {}
 
 @app.route('/train_experiment/<experiment_name>', methods=['POST'])
 def train_experiment(experiment_name):
@@ -159,17 +160,40 @@ def train_experiment(experiment_name):
     experiments_data["experiments"][experiment_name]["status"] = "training"
 
     try:
-        # Run the train.py script with the experiment name as an argument
-        subprocess.run(['python', train_script_path, experiment_name], check=True)
-        print(f"Training script executed for experiment: {experiment_name}")
-    except subprocess.CalledProcessError as e:
+        # Start the train.py script with the experiment name as an argument
+        process = subprocess.Popen(['python', train_script_path, experiment_name])
+        processes[experiment_name] = process  # Store the process object
+        print(f"Training script started for experiment: {experiment_name}")
+        process.wait()  # Wait for the script to finish
+    except Exception as e:
         print(f"Error running training script: {e}")
     finally:
         # After the script completes or if an error occurs, set the status to 'off'
         DB.update_experiment_column(db_path, experiment_name, "status", "off")
         experiments_data["experiments"][experiment_name]["status"] = "off"
-        # Mark the script as not running
+        # Mark the script as not running and remove the process object
         running_scripts[experiment_name] = False
+        processes.pop(experiment_name, None)
+
+    return redirect(url_for('home'))
+
+@app.route('/stop_experiment/<experiment_name>', methods=['POST'])
+def stop_experiment(experiment_name):
+    """
+    Stops the running training script for the specified experiment.
+    """
+    # Check if a process is running for the experiment
+    if experiment_name in processes:
+        process = processes[experiment_name]
+        process.terminate()  # Terminate the process
+        process.wait()  # Wait for the process to terminate
+        processes.pop(experiment_name, None)  # Remove the process from the dictionary
+        running_scripts[experiment_name] = False  # Update the running state
+
+        # Set the status to 'off'
+        db_path = 'experiments.db'
+        DB.update_experiment_column(db_path, experiment_name, "status", "off")
+        experiments_data["experiments"][experiment_name]["status"] = "off"
 
     return redirect(url_for('home'))
 

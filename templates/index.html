@@ -133,6 +133,14 @@
                                 Train
                             </button>
                         </form>
+
+                        <!-- Stop button -->
+                        <form action="{{ url_for('stop_experiment', experiment_name=key) }}" method="post" style="display: inline-block; margin-top: 10px;">
+                            <button type="submit" class="custom-button stop-button" id="{{ experiment.name }}-stop-button" 
+                                {% if experiment.status != 'training' %} disabled {% endif %}>
+                                Stop
+                            </button>
+                        </form>
                         
                         <p class="card-text"><small class="text-muted">Puppet: {{ experiment.puppet }}</small></p>
                         <div class="args-text mt-2">
@@ -163,16 +171,20 @@
                 for (const [experimentName, status] of Object.entries(statusData)) {
                     // Find the status badge element corresponding to the experiment
                     const statusBadge = document.getElementById(`${experimentName}-status-badge`);
+                    const stopButton = document.getElementById(`${experimentName}-stop-button`);
                     
                     // Update the status badge text and class based on the new status
                     statusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);  // Capitalize the first letter
                     
                     if (status === 'training') {
                         statusBadge.className = 'status-badge status-training';
+                        stopButton.disabled = false;  // Enable the Stop button
                     } else if (status === 'writing') {
                         statusBadge.className = 'status-badge status-writing';
+                        stopButton.disabled = true;  // Disable the Stop button
                     } else {
                         statusBadge.className = 'status-badge status-off';
+                        stopButton.disabled = true;  // Disable the Stop button
                     }
                 }
             });
