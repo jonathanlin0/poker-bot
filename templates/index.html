@@ -76,16 +76,16 @@
         .custom-button:active {
             box-shadow: none;
         }
-        .stop-button {
+        .stop-button, .reset-button {
             border-color: darkred;
             color: darkred;
         }
-        .stop-button:hover {
+        .stop-button:hover, .reset-button:hover {
             background-color: darkred;
             color: #fff;
             box-shadow: rgba(139, 0, 0, 0.25) 0 8px 15px;
         }
-        .stop-button:disabled {
+        .stop-button:disabled, .reset-button:disabled {
             pointer-events: none;
             background-color: #e0e0e0;
             color: #888;
@@ -136,14 +136,6 @@
                         {% endif %}
                         {% endfor %}
 
-                        <!-- Button to load data -->
-                        <form action="{{ url_for('load_data', experiment_name=key) }}" method="post" style="display: inline-block; margin-top: 10px;">
-                            <button type="submit" class="custom-button" 
-                                {% if experiment.data_loaded %} disabled {% endif %}>
-                                Load Data
-                            </button>
-                        </form>
-
                         <!-- Train button -->
                         <form action="{{ url_for('train_experiment', experiment_name=key) }}" method="post" style="display: inline-block; margin-top: 10px;">
                             <button type="submit" class="custom-button train-button" id="{{ experiment.name }}-train-button">
@@ -156,6 +148,13 @@
                             <button type="submit" class="custom-button stop-button" id="{{ experiment.name }}-stop-button" 
                                 {% if experiment.status != 'training' %} disabled {% endif %}>
                                 Stop
+                            </button>
+                        </form>
+
+                        <!-- Reset Data button -->
+                        <form action="{{ url_for('reset_experiment', experiment_name=key) }}" method="post" style="display: inline-block; margin-top: 10px;">
+                            <button type="submit" class="custom-button reset-button" id="{{ experiment.name }}-reset-button">
+                                Reset Data
                             </button>
                         </form>
                         
@@ -189,6 +188,7 @@
                     // Find the status badge element corresponding to the experiment
                     const statusBadge = document.getElementById(`${experimentName}-status-badge`);
                     const stopButton = document.getElementById(`${experimentName}-stop-button`);
+                    const resetButton = document.getElementById(`${experimentName}-reset-button`);
                     
                     // Update the status badge text and class based on the new status
                     statusBadge.textContent = status.charAt(0).toUpperCase() + status.slice(1);  // Capitalize the first letter
@@ -196,12 +196,11 @@
                     if (status === 'training') {
                         statusBadge.className = 'status-badge status-training';
                         stopButton.disabled = false;  // Enable the Stop button
-                    } else if (status === 'writing') {
-                        statusBadge.className = 'status-badge status-writing';
-                        stopButton.disabled = true;  // Disable the Stop button
+                        resetButton.disabled = true;  // Disable the Reset Data button
                     } else {
-                        statusBadge.className = 'status-badge status-off';
+                        statusBadge.className = (status === 'writing') ? 'status-badge status-writing' : 'status-badge status-off';
                         stopButton.disabled = true;  // Disable the Stop button
+                        resetButton.disabled = false;  // Enable the Reset Data button
                     }
                 }
             });
@@ -212,7 +211,9 @@
             $.getJSON("{{ url_for('check_running_status') }}", function(runningState) {
                 for (const [experimentName, isRunning] of Object.entries(runningState)) {
                     const trainButton = document.getElementById(`${experimentName}-train-button`);
+                    const resetButton = document.getElementById(`${experimentName}-reset-button`);
                     trainButton.disabled = isRunning;  // Disable Train button if the script is running
+                    resetButton.disabled = isRunning;  // Disable Reset button if the script is running
                     
                     // Disable or enable all "Change" buttons for the experiment
                     document.querySelectorAll(`button[id^='${experimentName}-change-button-']`).forEach(button => {

@@ -76,14 +76,15 @@ for experiment_name, experiment_info in experiments_data["experiments"].items():
     config_game = ConfigGame()  # Assuming ConfigGame has default or required parameters
 
     # Create a Bangkok model object using the arguments from the JSON file
-    bangkok_model = Bangkok(
-        reward_fn=args["reward_fn"],
-        update_interval_epochs=args["update_interval_epochs"],
-        exploit_test_multiplier=args["exploit_test_multiplier"],
-        num_exploit_hands=args["num_exploit_hands"],
-        equities_folder=args["equities_folder"],
-        config_game=config_game
-    )
+    # bangkok_model = Bangkok(
+    #     reward_fn=args["reward_fn"],
+    #     update_interval_epochs=args["update_interval_epochs"],
+    #     exploit_test_multiplier=args["exploit_test_multiplier"],
+    #     num_exploit_hands=args["num_exploit_hands"],
+    #     equities_folder=args["equities_folder"],
+    #     config_game=config_game
+    # )
+    bangkok_model = Bangkok(**args, config_game=config_game)
 
     # Store the model object in the dictionary
     experiment_to_model_obj[experiment_name] = bangkok_model
@@ -93,22 +94,23 @@ def home():
     experiments = experiments_data["experiments"]
     return render_template('index.html', experiments=experiments, puppet_config=puppet_config)
 
-@app.route('/load_data/<experiment_name>', methods=['POST'])
-def load_data(experiment_name):
-    # Update the data_loaded value for the specific experiment
+@app.route('/reset/<experiment_name>', methods=['POST'])
+def reset_experiment(experiment_name):
     if experiment_name in experiments_data["experiments"]:
         # Get the corresponding Bangkok model object
         model = experiment_to_model_obj.get(experiment_name)
         
-        # Run the model's load_data function with the specified file path
+        # Run the model's setup_data function with the specified file path
         if model:
-            model.load_data('data/bangkok_1')  # Load data from the specified path
+            model.setup_data('data/bangkok_1')  # Load data from the specified path
 
-        # Update the JSON data to reflect that data has been loaded
-        experiments_data["experiments"][experiment_name]["data_loaded"] = True
+        # reset the experiment's values
+        experiments_data["experiments"][experiment_name]["epoch"] = 0
+        experiments_data["experiments"][experiment_name]["status"] = "off"
 
         db_path = 'experiments.db'
-        DB.update_experiment_column(db_path, experiment_name, "data_loaded", True)
+        DB.update_experiment_column(db_path, experiment_name, "epoch", 0)
+        DB.update_experiment_column(db_path, experiment_name, "status", "off")
 
     return redirect(url_for('home'))
 
