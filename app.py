@@ -56,6 +56,21 @@ connection.close()
 # Load puppet configuration
 puppet_config = load_json_data('conf/puppets.json')
 
+# check that all the puppet types in the experiments have a class in puppets/ and a configuration exists for them
+for experiment in experiments_data["experiments"]:
+    if experiments_data["experiments"][experiment]["puppet"] not in puppet_config:
+        print(f"Error: Puppet type '{experiments_data['experiments'][experiment]['puppet']}' not found in puppet configuration.")
+        exit(1)
+    
+    puppet_class = experiments_data["experiments"][experiment]["puppet"].capitalize()
+    puppet_module = f"puppets.{puppet_class.lower()}"
+    try:
+        exec(f"from {puppet_module} import {puppet_class}")
+    except ImportError:
+        print(f"Error: Puppet class '{puppet_class}' not found in module '{puppet_module}'.")
+        exit(1)
+print("All puppet classes and matching configurations found.")
+
 # Initialize experiments data
 for experiment_name in experiments_data["experiments"]:
     experiments_data["experiments"][experiment_name]["data_loaded"] = False
@@ -75,15 +90,7 @@ for experiment_name, experiment_info in experiments_data["experiments"].items():
     args = experiment_info["args"]
     config_game = ConfigGame()  # Assuming ConfigGame has default or required parameters
 
-    # Create a Bangkok model object using the arguments from the JSON file
-    # bangkok_model = Bangkok(
-    #     reward_fn=args["reward_fn"],
-    #     update_interval_epochs=args["update_interval_epochs"],
-    #     exploit_test_multiplier=args["exploit_test_multiplier"],
-    #     num_exploit_hands=args["num_exploit_hands"],
-    #     equities_folder=args["equities_folder"],
-    #     config_game=config_game
-    # )
+    # Create a Bangkok model object using the arguments from the database
     bangkok_model = Bangkok(**args, config_game=config_game)
 
     # Store the model object in the dictionary
