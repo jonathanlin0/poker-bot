@@ -120,7 +120,7 @@
                         </span>
                         <h5 class="card-title">{{ experiment.name }}</h5>
                         <p class="card-text">{{ experiment.description }}</p>
-                        <p class="card-text"><strong>Epoch:</strong> {{ experiment.epoch }}</p>
+                        <p class="card-text"><strong>Epoch(s):</strong> {{ experiment.epoch }}</p>
                         <p class="card-text"><strong>Data/Weights Loaded:</strong> {{ experiment.data_loaded }}</p>
                         
                         <!-- Dynamic forms for configurable parameters -->
@@ -130,7 +130,7 @@
                             <label for="{{ arg_key }}-input" class="form-label">{{ arg_key }}</label>
                             <form action="{{ url_for('update_experiment', experiment_name=key, param=arg_key) }}" method="post" style="display: flex; align-items: center; margin-top: 5px;">
                                 <input type="number" name="new_value" value="{{ experiment.args[arg_key] }}" id="{{ arg_key }}-input" class="form-control" style="margin-right: 5px;">
-                                <button type="submit" class="custom-button">Change</button>
+                                <button type="submit" class="custom-button change-button" id="{{ experiment.name }}-change-button-{{ arg_key }}">Change</button>
                             </form>
                         </div>
                         {% endif %}
@@ -212,7 +212,12 @@
             $.getJSON("{{ url_for('check_running_status') }}", function(runningState) {
                 for (const [experimentName, isRunning] of Object.entries(runningState)) {
                     const trainButton = document.getElementById(`${experimentName}-train-button`);
-                    trainButton.disabled = isRunning;  // Disable button if the script is running
+                    trainButton.disabled = isRunning;  // Disable Train button if the script is running
+                    
+                    // Disable or enable all "Change" buttons for the experiment
+                    document.querySelectorAll(`button[id^='${experimentName}-change-button-']`).forEach(button => {
+                        button.disabled = isRunning;  // Disable each Change button if the script is running
+                    });
                 }
             });
         }
