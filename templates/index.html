@@ -129,7 +129,9 @@
 
                         <!-- Train button -->
                         <form action="{{ url_for('train_experiment', experiment_name=key) }}" method="post" style="display: inline-block; margin-top: 10px;">
-                            <button type="submit" class="custom-button">Train</button>
+                            <button type="submit" class="custom-button train-button" id="{{ experiment.name }}-train-button">
+                                Train
+                            </button>
                         </form>
                         
                         <p class="card-text"><small class="text-muted">Puppet: {{ experiment.puppet }}</small></p>
@@ -153,7 +155,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- JavaScript for checking status updates -->
+    <!-- JavaScript for checking status and running state updates -->
     <script>
         // Function to periodically check the status of experiments
         function checkStatusUpdates() {
@@ -176,8 +178,19 @@
             });
         }
 
-        // Call the checkStatusUpdates function every 5 seconds (5000 milliseconds)
-        setInterval(checkStatusUpdates, 5000);
+        // Function to periodically check the running state of experiments
+        function checkRunningStatus() {
+            $.getJSON("{{ url_for('check_running_status') }}", function(runningState) {
+                for (const [experimentName, isRunning] of Object.entries(runningState)) {
+                    const trainButton = document.getElementById(`${experimentName}-train-button`);
+                    trainButton.disabled = isRunning;  // Disable button if the script is running
+                }
+            });
+        }
+
+        // Call the checkStatusUpdates and checkRunningStatus functions every 0.5 seconds (500 milliseconds)
+        setInterval(checkStatusUpdates, 500);
+        setInterval(checkRunningStatus, 500);
     </script>
 </body>
 </html>

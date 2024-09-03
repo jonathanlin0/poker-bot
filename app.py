@@ -134,13 +134,29 @@ def update_experiment(experiment_name, param):
 
     return redirect(url_for('home'))
 
+# Keep track of running scripts
+running_scripts = {}
+
 @app.route('/train_experiment/<experiment_name>', methods=['POST'])
 def train_experiment(experiment_name):
     """
-    Triggers the training script for the specified experiment.
+    Triggers the training script for the specified experiment and prevents multiple runs.
     """
     # Define the path to the train.py script
     train_script_path = os.path.join(os.getcwd(), 'train.py')
+    db_path = 'experiments.db'
+
+    # Check if the script is already running for this experiment
+    if running_scripts.get(experiment_name, False):
+        # If running, do nothing and redirect to home
+        return redirect(url_for('home'))
+
+    # Mark the script as running
+    running_scripts[experiment_name] = True
+
+    # Set the status to 'training' at the start
+    DB.update_experiment_column(db_path, experiment_name, "status", "training")
+    experiments_data["experiments"][experiment_name]["status"] = "training"
 
     try:
         # Run the train.py script with the experiment name as an argument
@@ -148,8 +164,21 @@ def train_experiment(experiment_name):
         print(f"Training script executed for experiment: {experiment_name}")
     except subprocess.CalledProcessError as e:
         print(f"Error running training script: {e}")
+    finally:
+        # After the script completes or if an error occurs, set the status to 'off'
+        DB.update_experiment_column(db_path, experiment_name, "status", "off")
+        experiments_data["experiments"][experiment_name]["status"] = "off"
+        # Mark the script as not running
+        running_scripts[experiment_name] = False
 
     return redirect(url_for('home'))
+
+@app.route('/check_running_status', methods=['GET'])
+def check_running_status():
+    """
+    Returns the running state of all experiments in JSON format.
+    """
+    return jsonify(running_scripts)
 
 @app.route('/check_status', methods=['GET'])
 def check_status():
