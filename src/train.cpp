@@ -49,7 +49,7 @@ int next_epoch_to_calculate_exploitability = 50000;
 atomic<long long> total_hands_played = 0; // thread safe type
 mutex stats_lock;
 
-int next_epoch_to_perform_validation = 1000;
+int next_epoch_to_perform_validation = 5000;
 
 array<mutex, 4> street_locks; // use via lock(street_locks[street]) for safe locking and unlocking. automatically unlocks when out of scope
 // [street] -> { infoset_key -> Node }
