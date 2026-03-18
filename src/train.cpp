@@ -47,10 +47,11 @@ int next_epoch_to_calculate_exploitability = 50000;
 
 // global variables for stats
 atomic<long long> total_hands_played = 0; // thread safe type
-mutex cfr_mutex; // use via lock(cfr_mutex) for safe locking and unlocking. automatically unlocks when out of scope
+mutex stats_lock;
 
 int next_epoch_to_perform_validation = 1000;
 
+array<mutex, 4> street_locks; // use via lock(street_locks[street]) for safe locking and unlocking. automatically unlocks when out of scope
 // [street] -> { infoset_key -> Node }
 array<unordered_map<string, Node>, 4> nodes;
 
@@ -240,7 +241,7 @@ float external_cfr(
     // called up here since they're used by both traversing and sampled player
     unordered_map<string, float> strategy;
     {
-        lock_guard<mutex> lock(cfr_mutex);
+        lock_guard<mutex> lock(street_locks[street]);
         ensure_node_exists(street, infoset, valid_actions);
         strategy = get_strat(street, infoset, valid_actions);
     }
@@ -266,9 +267,11 @@ float external_cfr(
         }
 
         {
-            lock_guard<mutex> lock(cfr_mutex);
+            lock_guard<mutex> lock(street_locks[street]);
             update_regret_sum(street, infoset, regret);
-
+        }
+        {
+            lock_guard<mutex> lock(stats_lock);
             // TEMP: track the positive clamped regret sum
             for (const auto& [action, val] : regret) {
                 interval_regret_sum += max(0.0, static_cast<double>(val));
@@ -299,7 +302,7 @@ float external_cfr(
         );
 
         {
-            lock_guard<mutex> lock(cfr_mutex);
+            lock_guard<mutex> lock(street_locks[street]);
             update_strat_sum(street, infoset, strategy, valid_actions, epoch);
         }
         return util;
