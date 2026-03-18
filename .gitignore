@@ -6,3 +6,6 @@ build/
 
 # macOS metadata files
 **/.DS_Store
+
+# Data
+data/
