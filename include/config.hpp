@@ -1,0 +1,51 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#include <array>
+#include <cstdint>
+#include <string>
+#include <vector>
+
+// general training constants
+const int EPOCHS = 2100000;
+
+// number of epochs ignored for updating strat sum
+const int AVERAGING_DELAY = 1000;
+
+
+// game constants
+const uint16_t STARTING_STACK = 200; // in SB (= 100 BB)
+const int MAX_RAISES_PER_STREET = 2;
+
+// preflop: multiples of big blind
+const std::array<uint8_t, 5> PREFLOP_RAISE_SIZES = {2, 4, 8, 16, 32};
+// postflop: fractions of the pot
+const std::array<float, 6> POSTFLOP_RAISE_SIZES = {0.3f, 0.5f, 1.0f, 1.5f, 2.0f};
+
+
+// validation constants
+// the variants that the bot plays against for val
+const std::vector<std::string> VARIANT_NAMES = {
+    "over-call",
+    "agro",
+    "tight",
+    "unif",
+    "itself",
+    "tight-agro", 
+    "initial-weights"
+};
+
+// how many epochs between each validation check
+const int VALIDATION_INTERVAL = 5000;
+// how many hands to play for each variant in validation
+const int HANDS_PER_VARIANT = 100000;
+// how many hands to simulate for tight-agro variant to check win rate
+const int TIGHT_AGRO_NUM_SIMS = 5;
+
+// how many samples to take to compute exploitability
+// multiply by 2 because it's done for both players
+const int EXPLOITABILITY_NUM_SAMPLES = 2000;
+// how many threads to use to compute exploitability
+const int NUM_EXPLOITABILITY_THREADS = 10;
+
+#endif
