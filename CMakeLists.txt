@@ -27,32 +27,28 @@ add_executable(precompute_equity src/precompute_equity.cpp)
 target_link_libraries(precompute_equity PRIVATE poker_lib)
 
 # ==================== Testing ====================
-option(BUILD_TESTS "Build the tests" ON)
+enable_testing()
 
-if(BUILD_TESTS)
-    enable_testing()
-    
-    # Fetch GoogleTest
-    include(FetchContent)
-    FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG v1.14.0
-    )
-    # For Windows: Prevent overriding the parent project's compiler/linker settings
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-    FetchContent_MakeAvailable(googletest)
+# Fetch GoogleTest
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.14.0
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-    # Test executable
-    add_executable(poker_tests
-        tests/test_pokerkit.cpp
-    )
-    target_link_libraries(poker_tests PRIVATE
-        poker_lib
-        GTest::gtest_main
-    )
+# Test executable
+add_executable(poker_tests
+    tests/test_pokerkit.cpp
+)
+target_link_libraries(poker_tests PRIVATE
+    poker_lib
+    GTest::gtest_main
+)
 
-    include(GoogleTest)
-    gtest_discover_tests(poker_tests)
-endif()
+include(GoogleTest)
+gtest_discover_tests(poker_tests)
 
