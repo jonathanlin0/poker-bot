@@ -15,9 +15,11 @@ struct Node {
     std::vector<float> avg_strat;
 
     Node() = default;
-    Node(const std::vector<Action>& valid_actions,
-         const std::unordered_map<std::string, std::array<float, 2>>& equity_map,
-         const std::string& infoset);
+    Node(
+        uint8_t street,
+        const std::string& infoset,
+        const std::vector<Action>& valid_actions
+    );
 
     size_t action_index(const std::string& action) const;
     std::unordered_map<std::string, float> get_avg_strat_map() const;

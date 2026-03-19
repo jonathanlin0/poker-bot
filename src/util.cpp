@@ -57,34 +57,6 @@ std::string trim_aggression_and_actions_off_infoset(const std::string& infoset) 
     return infoset.substr(0, second_last);
 }
 
-EquityMap load_precomputed_equities() {
-    EquityMap data{};
-    const std::string filepath = "data/precomputed_equity.txt";
-    const std::string bucket_delimiter = " ";
-    std::ifstream file(filepath);
-    if (!file.is_open()) {
-        std::cout << "Warning: could not load precomputed equities from " << filepath << std::endl;
-        return data;
-    }
-
-    std::string infoset, wins_str, total_str;
-    while (std::getline(file, infoset)) {
-        if (!std::getline(file, wins_str) || !std::getline(file, total_str)) break;
-
-        size_t first_delim = infoset.find(bucket_delimiter);
-        size_t second_delim = infoset.find(bucket_delimiter, first_delim + 1);
-        int street = std::stoi(infoset.substr(first_delim + 1, second_delim - first_delim - 1));
-
-        data[street][infoset][0] += std::stof(wins_str);
-        data[street][infoset][1] += std::stof(total_str);
-    }
-
-    size_t total = 0;
-    for (int s = 0; s < 4; s++) total += data[s].size();
-    std::cout << "Loaded precomputed equities: " << total << " infosets from " << filepath << std::endl;
-    return data;
-}
-
 size_t sample_from_distribution_list(const std::vector<float>& distribution) {
     assert(!distribution.empty() && "Distribution is empty");
     float sum = 0.0f;

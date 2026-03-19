@@ -20,9 +20,4 @@ size_t sample_from_distribution_list(const std::vector<float>& distribution);
 */
 std::string trim_aggression_and_actions_off_infoset(const std::string& infoset);
 
-// Loads precomputed equity data from data/precomputed_equity.txt, separated by street.
-// Returns an empty map and prints a warning if the file can't be loaded.
-EquityMap load_precomputed_equities();
-
 #endif // UTIL_HPP
-

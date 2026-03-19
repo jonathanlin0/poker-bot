@@ -8,6 +8,7 @@ set(LIB_SOURCES
     src/card.cpp
     src/util.cpp
     src/node.cpp
+    src/initial_strategy_getter.cpp
     src/pokerkit.cpp
     src/poker_game_util.cpp
     src/infoset_calculator.cpp

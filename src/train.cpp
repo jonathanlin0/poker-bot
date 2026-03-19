@@ -2,6 +2,7 @@
 #include "../include/action.hpp"
 #include "../include/card.hpp"
 #include "../include/config.hpp"
+#include "../include/initial_strategy_getter.hpp"
 #include "../include/node.hpp"
 #include "../include/poker_game_util.hpp"
 #include "../include/infoset_calculator.hpp"
@@ -57,8 +58,6 @@ array<unordered_map<string, Node>, 4> nodes;
 
 unordered_map<string, float> infoset_to_hands_played;
 
-EquityMap precomputed_equities;
-
 double interval_regret_sum = 0.0;
 
 int num_threads = 1;
@@ -69,7 +68,7 @@ int num_threads = 1;
 */
 void ensure_node_exists(uint8_t street, const string& infoset, const vector<Action>& valid_actions) {
     if (nodes[street].find(infoset) == nodes[street].end()) {
-        nodes[street][infoset] = Node(valid_actions, precomputed_equities[street], infoset);
+        nodes[street][infoset] = Node(street, infoset, valid_actions);
     }
 }
 
@@ -313,7 +312,7 @@ float external_cfr(
 }
 
 void wrapper_cfr_iterations(const string& experiment_name) {
-    precomputed_equities = load_precomputed_equities();
+    const EquityMap& precomputed_equities = InitialStrategyGetter::get_equities();
 
     // Clear and create data/<experiment_name>/ folder once at start
     string experiment_dir = "data/" + experiment_name;

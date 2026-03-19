@@ -3,6 +3,7 @@
 #include "../include/action.hpp"
 #include "../include/card.hpp"
 #include "../include/config.hpp"
+#include "../include/initial_strategy_getter.hpp"
 #include "../include/node.hpp"
 #include "../include/poker_game_util.hpp"
 #include "../include/infoset_calculator.hpp"
@@ -212,15 +213,10 @@ unordered_map<string, float> get_avg_strat_variant(
             actions.push_back(Action(action[0], -1)); // pass in -1 cause raise amount doesn't matter for initial weights. if initial weights r adjusted for raise amt later, then finish the constructor for Action based on string input
         }
 
-        string trimmed = trim_aggression_and_actions_off_infoset(infoset);
-        auto it = equities[street].find(trimmed);
-        if (it != equities[street].end() && it->second[1] > 0) {
-            float win_rate = it->second[0] / it->second[1];
-            apply_equity_adjustments(probs, actions, win_rate);
-        }
+        vector<float> initial_strategy = InitialStrategyGetter::get_initial_strategy(street, infoset, actions);
 
         for (size_t i = 0; i < keys.size(); i++) {
-            variant[keys[i]] = probs[i];
+            variant[keys[i]] = initial_strategy[i];
         }
     } else if (variant_name == "over-call") {
         for (const auto& [action, prob] : variant) {
@@ -477,18 +473,9 @@ float best_response_value(
     if (nodes[street].count(infoset)) {
         strategy = nodes[street].at(infoset).get_avg_strat_map();
     } else {
-        float uniform = 1.0f / valid_actions.size();
-        vector<float> probs(valid_actions.size(), uniform);
-
-        string trimmed = trim_aggression_and_actions_off_infoset(infoset);
-        auto it = equities[street].find(trimmed);
-        if (it != equities[street].end() && it->second[1] > 0) {
-            float win_rate = it->second[0] / it->second[1];
-            apply_equity_adjustments(probs, valid_actions, win_rate);
-        }
-
+        vector<float> initial_strategy = InitialStrategyGetter::get_initial_strategy(street, infoset, valid_actions);
         for (size_t i = 0; i < valid_actions.size(); i++) {
-            strategy[string(valid_actions[i])] = probs[i];
+            strategy[string(valid_actions[i])] = initial_strategy[i];
         }
     }
 
