@@ -26,8 +26,7 @@ cmake -B build && cmake --build build
 This process takes a few days on a 12 core (24 thread) CPU, where each core had a max boost clock of to 5.6 GHz. This may take more or less time depending on the specifications of your hardware.
 ```
 # configure and build
-# highest level of compiler optimization. recommended for training
-cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS_RELEASE="-O3 -march=native" && cmake --build build
+cmake -B build && cmake --build build
 
 # run
 ./build/poker_train -n "default-name" --num-threads 1
