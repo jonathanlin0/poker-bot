@@ -1,6 +1,7 @@
 #include "../include/pokerkit.hpp"
 #include "../include/infoset_calculator.hpp"
 #include "../include/card.hpp"
+#include "../include/config.hpp"
 #include "../include/util.hpp"
 #include <array>
 #include <atomic>
@@ -17,7 +18,6 @@
 const int HANDS_PER_THREAD = 5000000;
 const int PRINT_INTERVAL = 25000;
 const int NUM_THREADS = 20;
-const uint16_t STARTING_STACK = 200; // in SB (= 100 BB)
 
 // ==================== Globals ====================
 std::atomic<bool> should_stop(false);
@@ -32,12 +32,11 @@ using ResultMap = std::array<std::unordered_map<std::string, std::array<float, 2
 
 // Note: make sure to update this if the delimiter changes in infoset_calculator.cpp
 const std::string BUCKET_DELIMITER = " ";
-const std::string EQUITY_FILE = "data/precomputed_equity.txt";
 
 // ==================== File I/O ====================
 ResultMap load_existing_data() {
     ResultMap data{};
-    std::ifstream file(EQUITY_FILE);
+    std::ifstream file(PRECOMPUTED_EQUITIES_FILE);
     if (!file.is_open()) return data;
 
     std::string infoset, wins_str, total_str;
@@ -57,9 +56,9 @@ ResultMap load_existing_data() {
 
 void save_data(const ResultMap& data) {
     std::filesystem::create_directories("data");
-    std::ofstream file(EQUITY_FILE); // automatically gets destroyed when out of scope
+    std::ofstream file(PRECOMPUTED_EQUITIES_FILE); // automatically gets destroyed when out of scope
     if (!file.is_open()) {
-        throw std::runtime_error("Failed to open file: " + EQUITY_FILE);
+        throw std::runtime_error("Failed to open file: " + PRECOMPUTED_EQUITIES_FILE);
     }
     for (int s = 0; s < 4; s++) {
         for (const auto& [key, stats] : data[s]) {
@@ -208,7 +207,7 @@ int main() {
     }
 
     save_data(merged);
-    std::cout << "\nSaved to " << EQUITY_FILE << std::endl;
+    std::cout << "\nSaved to " << PRECOMPUTED_EQUITIES_FILE << std::endl;
 
     std::cout << "\n=== Merged Results (including previous runs) ===" << std::endl;
     for (int s = 0; s < 4; s++) {

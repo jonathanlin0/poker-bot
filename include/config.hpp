@@ -48,4 +48,8 @@ const int EXPLOITABILITY_NUM_SAMPLES = 2000;
 // how many threads to use to compute exploitability
 const int NUM_EXPLOITABILITY_THREADS = 10;
 
+
+// precomputed equities
+const std::string PRECOMPUTED_EQUITIES_FILE = "data/precomputed_equity.txt";
+
 #endif
