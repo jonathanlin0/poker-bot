@@ -43,6 +43,7 @@ cmake -B build && cmake --build build -j1 && ./build/poker_tests
 
 ## Project Structure
 
+- `include/config.hpp` - Config constants
 - `include/` - Header files
 - `src/` - Source files
 - `data/` - Generated precomputed equity and training output
