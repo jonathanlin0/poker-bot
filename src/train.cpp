@@ -81,17 +81,19 @@ unordered_map<string, float> get_strat(uint8_t street, const string& infoset, co
     // calculate total regret pre transformations
     float total_regret = 0.0f;
     for (size_t i = 0; i < node.actions.size(); i++) {
-        total_regret += std::max(0.0f, node.regret_sum[i]);
+        total_regret += std::max(0.0f, node.regret_sum[i]); // regret_sum[i] should always be nonnegative in this version. but clamping it in case changed in the future
     }
 
     // apply minimum regret sum for regularization purposes
     for (size_t i = 0; i < node.actions.size(); i++) {
         if (total_regret == 0.0f) {
             strategy[node.actions[i]] = 1.0f / valid_actions.size();
-        } else {
-            float uniform_prob = total_regret / valid_actions.size();
-            float uniform_weight = max(0.0f, (15.0f - infoset_to_hands_played[infoset]) / 100.0f);
-            strategy[node.actions[i]] = (uniform_prob * uniform_weight) + std::max(0.0f, node.regret_sum[i]); 
+        } 
+        else {
+        //     float uniform_prob = total_regret / valid_actions.size();
+        //     float uniform_weight = max(0.0f, (15.0f - infoset_to_hands_played[infoset]) / 100.0f);
+        //     strategy[node.actions[i]] = (uniform_prob * uniform_weight) + std::max(0.0f, node.regret_sum[i]); 
+            strategy[node.actions[i]] = std::max(0.0f, node.regret_sum[i]); // regret_sum[i] should always be nonnegative in this version. but clamping it in case changed in the future
         }
     }
 
@@ -328,7 +330,7 @@ void wrapper_cfr_iterations(const string& experiment_name) {
         if (!config_file.is_open()) {
             throw runtime_error("Failed to open file: " + experiment_dir + "/configs.txt");
         }
-        config_file << "num-threads: " << num_threads << "\n";
+        config_file << "num-threads:" << num_threads << "\n";
     }
 
     for (int i = 0; i < EPOCHS; i++) {
