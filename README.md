@@ -48,3 +48,14 @@ cmake -B build && cmake --build build -j1 && ./build/poker_tests
 - `src/` - Source files
 - `data/` - Generated precomputed equity and training output
 - `build/` - Cmake build output and compiled binaries
+
+## Visualizations
+
+### Exploitability
+Plots each experiment's exploitability per hand. Exploitability is the maximum expected profit an opponent can make against the bot if the exploiter always chooses the best response in each situation. The best response is the action that maximizes their EV. Exploitability will always be positive, but it should asymptotically approach 0 as the bot gets better.
+```
+python scripts/graph_exploitability.py
+```
+
+Example:
+![exploitability graph](figs/exploitability_graph.png)
