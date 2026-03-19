@@ -320,6 +320,17 @@ void wrapper_cfr_iterations(const string& experiment_name) {
     filesystem::create_directories(experiment_dir);
     filesystem::create_directories(experiment_dir + "/variant_play");
 
+    // Save config snapshot for this experiment
+    // essentially saves all the command line arguments as a text file
+    // mainly used by the plotting scripts
+    {
+        ofstream config_file(experiment_dir + "/config.txt");
+        if (!config_file.is_open()) {
+            throw runtime_error("Failed to open file: " + experiment_dir + "/configs.txt");
+        }
+        config_file << "num-threads: " << num_threads << "\n";
+    }
+
     for (int i = 0; i < EPOCHS; i++) {
         if (i % VALIDATION_INTERVAL == 0) {
             cout << "Epoch " << i << " completed (" << total_hands_played << " hands played)" << endl;
