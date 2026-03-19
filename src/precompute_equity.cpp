@@ -15,10 +15,6 @@
 #include <unordered_map>
 #include <vector>
 
-const int HANDS_PER_THREAD = 5000000;
-const int PRINT_INTERVAL = 25000;
-const int NUM_THREADS = 20;
-
 // ==================== Globals ====================
 std::atomic<bool> should_stop(false);
 std::mutex print_mutex;
@@ -73,10 +69,10 @@ ResultMap simulate_equity(int thread_id) {
     // dummy actions used for infoset creation
     std::vector<Action> dummy_actions;
 
-    for (int hand = 0; hand < HANDS_PER_THREAD; hand++) {
+    for (int hand = 0; hand < PRECOMPUTE_EQUITY_HANDS_PER_THREAD; hand++) {
         if (should_stop.load()) break;
 
-        if ((hand + 1) % PRINT_INTERVAL == 0) {
+        if ((hand + 1) % PRECOMPUTE_EQUITY_PRINT_INTERVAL == 0) {
             std::lock_guard<std::mutex> lock(print_mutex); // lock the mutex to avoid race conditions. automatically unlocks when out of scope
             std::cout << "Thread " << thread_id << ": " << (hand + 1) << " hands played" << std::endl;
         }
@@ -151,13 +147,13 @@ int main() {
     std::signal(SIGINT, signal_handler);
 
     std::cout << "Starting equity precomputation: "
-              << NUM_THREADS << " threads x " << HANDS_PER_THREAD << " hands each"
+              << PRECOMPUTE_EQUITY_NUM_THREADS << " threads x " << PRECOMPUTE_EQUITY_HANDS_PER_THREAD << " hands each"
               << std::endl;
 
-    std::vector<ResultMap> thread_results(NUM_THREADS);
+    std::vector<ResultMap> thread_results(PRECOMPUTE_EQUITY_NUM_THREADS);
     std::vector<std::thread> threads;
 
-    for (int i = 0; i < NUM_THREADS; i++) {
+    for (int i = 0; i < PRECOMPUTE_EQUITY_NUM_THREADS; i++) {
         // [&thread_results, i] allows the lambda function worker to access them
         auto worker = [&thread_results, i]() {
             thread_results[i] = simulate_equity(i);
@@ -176,7 +172,7 @@ int main() {
 
     const std::array<std::string, 4> street_names = {"Preflop", "Flop", "Turn", "River"};
 
-    for (int i = 0; i < NUM_THREADS; i++) {
+    for (int i = 0; i < PRECOMPUTE_EQUITY_NUM_THREADS; i++) {
         std::cout << "\n--- Thread " << i << " ---" << std::endl;
         for (int s = 0; s < 4; s++) {
             std::cout << "  " << street_names[s] << ": "
@@ -186,7 +182,7 @@ int main() {
 
     // Merge all thread results
     ResultMap merged{};
-    for (int i = 0; i < NUM_THREADS; i++) {
+    for (int i = 0; i < PRECOMPUTE_EQUITY_NUM_THREADS; i++) {
         for (int s = 0; s < 4; s++) {
             for (const auto& [key, stats] : thread_results[i][s]) {
                 merged[s][key][0] += stats[0];

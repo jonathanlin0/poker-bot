@@ -52,4 +52,11 @@ const int NUM_EXPLOITABILITY_THREADS = 10;
 // precomputed equities
 const std::string PRECOMPUTED_EQUITIES_FILE = "data/precomputed_equity.txt";
 
+// how many hands each thread simulates (check/call to showdown) to estimate win rates per infoset
+const int PRECOMPUTE_EQUITY_HANDS_PER_THREAD = 5000000;
+// how often each thread prints progress (in hands)
+const int PRECOMPUTE_EQUITY_PRINT_INTERVAL = 25000;
+// number of threads to run in parallel for equity precomputation
+const int PRECOMPUTE_EQUITY_NUM_THREADS = 20;
+
 #endif
