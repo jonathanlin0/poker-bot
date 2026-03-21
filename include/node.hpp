@@ -25,6 +25,4 @@ struct Node {
     std::unordered_map<std::string, float> get_avg_strat_map() const;
 };
 
-void apply_equity_adjustments(std::vector<float>& distribution, const std::vector<Action>& valid_actions, float win_rate);
-
 #endif // NODE_HPP
