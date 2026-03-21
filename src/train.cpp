@@ -6,6 +6,7 @@
 #include "../include/node.hpp"
 #include "../include/poker_game_util.hpp"
 #include "../include/infoset_calculator.hpp"
+#include "../include/serialization.hpp"
 #include "../include/util.hpp"
 #include "../include/validation.hpp"
 #include <atomic>
@@ -371,6 +372,12 @@ void wrapper_cfr_iterations(const string& experiment_name) {
             calculate_avg_strat();
             Validation::play_variants(experiment_dir, i, VARIANT_NAMES, nodes, infoset_to_hands_played, precomputed_equities);
             next_epoch_to_perform_validation = ceil((next_epoch_to_perform_validation != 0 ? next_epoch_to_perform_validation : 1) * 1.3);
+        }
+
+        // save nodes to disk
+        if (i > 0 && i % SAVE_INTERVAL == 0) {
+            cout << "Saving nodes at epoch " << i << "..." << endl;
+            save_nodes(experiment_dir + "/weights.bin", nodes);
         }
         
         auto run_traversal = [&](uint8_t traversing_player) {

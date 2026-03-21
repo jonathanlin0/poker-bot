@@ -12,6 +12,9 @@ const int EPOCHS = 2100000;
 // number of epochs ignored for updating strat sum
 const int AVERAGING_DELAY = 1000;
 
+// how often to save the nodes to a file
+const int SAVE_INTERVAL = 100000;
+
 
 // game constants
 const uint16_t STARTING_STACK = 200; // in SB (= 100 BB)

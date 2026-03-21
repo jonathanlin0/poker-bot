@@ -12,6 +12,7 @@ set(LIB_SOURCES
     src/pokerkit.cpp
     src/poker_game_util.cpp
     src/infoset_calculator.cpp
+    src/serialization.cpp
 )
 
 # Create a library from the source files (for linking to tests)
@@ -43,6 +44,7 @@ FetchContent_MakeAvailable(googletest)
 # Test executable
 add_executable(poker_tests
     tests/test_pokerkit.cpp
+    tests/test_serialization.cpp
 )
 target_link_libraries(poker_tests PRIVATE
     poker_lib
