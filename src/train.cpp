@@ -9,6 +9,7 @@
 #include "../include/serialization.hpp"
 #include "../include/util.hpp"
 #include "../include/validation.hpp"
+#include "../include/cfr_util.hpp"
 #include <atomic>
 #include <iostream>
 #include <array>
@@ -133,29 +134,6 @@ void update_strat_sum(uint8_t street, const string& infoset, const unordered_map
     for (const auto& [action, prob] : strat) {
         size_t idx = node.action_index(action);
         node.strat_sum[idx] += prob * weight; // iteration based weighting -> later iterations have more weight since they're considered more influential and representative of the optimal game strat
-    }
-}
-
-void calculate_avg_strat() {
-    for (int street = 0; street < 4; street++) {
-        for (auto& [infoset, node] : nodes[street]) {
-            float normalizing_sum = 0.0f;
-            for (float val : node.strat_sum) {
-                normalizing_sum += val;
-            }
-
-            if (normalizing_sum > 0) {
-                for (size_t i = 0; i < node.actions.size(); i++) {
-                    node.avg_strat[i] = node.strat_sum[i] / normalizing_sum;
-                }
-            } else {
-                // Uniform distribution if no samples
-                float uniform_prob = 1.0f / node.actions.size();
-                for (size_t i = 0; i < node.actions.size(); i++) {
-                    node.avg_strat[i] = uniform_prob;
-                }
-            }
-        }
     }
 }
 
@@ -369,7 +347,7 @@ void wrapper_cfr_iterations(const string& experiment_name) {
 
         if (i == next_epoch_to_perform_validation) {
             cout << "Performing validation at epoch " << i << endl;
-            calculate_avg_strat();
+            calculate_avg_strat(nodes);
             Validation::play_variants(experiment_dir, i, VARIANT_NAMES, nodes, infoset_to_hands_played, precomputed_equities);
             next_epoch_to_perform_validation = ceil((next_epoch_to_perform_validation != 0 ? next_epoch_to_perform_validation : 1) * 1.3);
         }

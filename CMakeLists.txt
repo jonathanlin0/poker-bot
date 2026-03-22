@@ -13,6 +13,8 @@ set(LIB_SOURCES
     src/poker_game_util.cpp
     src/infoset_calculator.cpp
     src/serialization.cpp
+    src/cfr_util.cpp
+    src/cfr_util.cpp
 )
 
 # Create a library from the source files (for linking to tests)
