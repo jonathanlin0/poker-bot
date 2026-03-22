@@ -355,7 +355,8 @@ void wrapper_cfr_iterations(const string& experiment_name) {
         // save nodes to disk
         if (i > 0 && i % SAVE_INTERVAL == 0) {
             cout << "Saving nodes at epoch " << i << "..." << endl;
-            save_nodes(experiment_dir + "/weights.bin", nodes);
+            calculate_avg_strat(nodes);
+            save_nodes(experiment_dir, nodes);
         }
         
         auto run_traversal = [&](uint8_t traversing_player) {

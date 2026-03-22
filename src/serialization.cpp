@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 /*
-    Binary format (per street):
+    weights.bin — Binary format (per street):
         [num_infosets: u32]
         For each infoset:
             [key_len: u32][key_bytes...]
@@ -13,16 +13,61 @@
             [regret_sum: num_actions floats]
             [strat_sum: num_actions floats]
 
-    avg_strat is not saved since it can be recomputed from strat_sum via calculate_avg_strat().
+    avg_strat.bin — Binary format (per street):
+        [num_infosets: u32]
+        For each infoset:
+            [key_len: u32][key_bytes...]
+            [num_actions: u32]
+            For each action:
+                [action_len: u32][action_bytes...]
+            [avg_strat: num_actions floats]
+
+    avg_strat can be derived from strat_sum, but it's saved for convenience
+    for clearer weight loading for inference (playing against the bot's weights).
 */
 
-void save_nodes(const std::string& filepath, const std::array<std::unordered_map<std::string, Node>, 4>& nodes) {
+// avg_strat can be derived from strat_sum, but it's saved for convenience
+// for clearer weight loading for inference (playing against the bot's weights).
+// TODO: write tests for this function
+static void save_avg_strat(const std::string& experiment_dir, const std::array<std::unordered_map<std::string, Node>, 4>& nodes) {
+    std::string filepath = experiment_dir + "/avg_strat.bin";
+    std::ofstream out(filepath, std::ios::binary);
+    if (!out.is_open()) {
+        throw std::runtime_error("Failed to open file for writing: " + filepath);
+    }
+
+    for (int street = 0; street < 4; street++) {
+        uint32_t num_infosets = nodes[street].size();
+        out.write(reinterpret_cast<const char*>(&num_infosets), sizeof(num_infosets));
+
+        for (const auto& [key, node] : nodes[street]) {
+            uint32_t key_len = key.size();
+            out.write(reinterpret_cast<const char*>(&key_len), sizeof(key_len));
+            out.write(key.data(), key_len);
+
+            uint32_t num_actions = node.actions.size();
+            out.write(reinterpret_cast<const char*>(&num_actions), sizeof(num_actions));
+
+            for (const auto& action : node.actions) {
+                uint32_t action_len = action.size();
+                out.write(reinterpret_cast<const char*>(&action_len), sizeof(action_len));
+                out.write(action.data(), action_len);
+            }
+
+            out.write(reinterpret_cast<const char*>(node.avg_strat.data()), num_actions * sizeof(float));
+        }
+    }
+}
+
+void save_nodes(const std::string& experiment_dir, const std::array<std::unordered_map<std::string, Node>, 4>& nodes) {
     // Ensure that each street has at least one infoset
     for (int street = 0; street < 4; street++) {
         if (nodes[street].empty()) {
             throw std::runtime_error("Cannot save nodes: street " + std::to_string(street) + " has 0 infosets");
         }
     }
+
+    std::string filepath = experiment_dir + "/weights.bin";
 
     std::ofstream out(filepath, std::ios::binary);
     if (!out.is_open()) {
@@ -56,6 +101,8 @@ void save_nodes(const std::string& filepath, const std::array<std::unordered_map
             out.write(reinterpret_cast<const char*>(node.strat_sum.data()), num_actions * sizeof(float));
         }
     }
+
+    save_avg_strat(experiment_dir, nodes);
 }
 
 void load_nodes(const std::string& filepath, std::array<std::unordered_map<std::string, Node>, 4>& nodes) {
