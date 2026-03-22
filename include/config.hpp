@@ -23,7 +23,7 @@ const int MAX_RAISES_PER_STREET = 2;
 // preflop: multiples of big blind
 const std::array<uint8_t, 5> PREFLOP_RAISE_SIZES = {2, 4, 8, 16, 32};
 // postflop: fractions of the pot
-const std::array<float, 6> POSTFLOP_RAISE_SIZES = {0.3f, 0.5f, 1.0f, 1.5f, 2.0f};
+const std::array<float, 5> POSTFLOP_RAISE_SIZES = {0.3f, 0.5f, 1.0f, 1.5f, 2.0f};
 
 
 // validation constants
