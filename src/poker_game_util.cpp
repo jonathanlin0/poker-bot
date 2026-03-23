@@ -164,8 +164,11 @@ vector<Action> get_valid_actions(bool is_preflop, const PokerKit& game) {
         bet_to_face = static_cast<uint16_t>(current_round.back().amount);
     }
 
-    // Fold and Check/Call are always valid
-    actions.push_back(Action('f', -1));
+    // fold only when there's a cost to call
+    if (bet_to_face > player_current_bet) {
+        actions.push_back(Action('f', -1));
+    }
+    // Check/Call is always valid
     actions.push_back(Action('c', 0));
 
     // Count raises in the current street
