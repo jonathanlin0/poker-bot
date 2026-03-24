@@ -36,6 +36,7 @@ PokerKit build_game(
 // Returns the valid actions for the current game state.
 // is_preflop: true for preflop, false for postflop (flop/turn/river)
 // Uses is_raise_valid to check each raise.
+// Note: The CALL action objects always have an amount of 0. But the game.check_or_call() method will adjust the amount to match the last bet on the street.
 std::vector<Action> get_valid_actions(bool is_preflop, const PokerKit& game);
 
 #endif // POKER_GAME_UTIL_HPP
