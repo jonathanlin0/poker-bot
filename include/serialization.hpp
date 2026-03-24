@@ -24,4 +24,14 @@ void load_nodes(
     4>& nodes
 );
 
+/*
+    Loads only avg_strat data from avg_strat.bin (actions + avg_strat per node).
+    Lighter than load_nodes - skips regret_sum/strat_sum.
+*/
+void load_avg_strat(
+    const std::string& filepath,
+    std::array<std::unordered_map<std::string, Node>,
+    4>& nodes
+);
+
 #endif // SERIALIZATION_HPP

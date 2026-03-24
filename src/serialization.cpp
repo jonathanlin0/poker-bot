@@ -105,6 +105,43 @@ void save_nodes(const std::string& experiment_dir, const std::array<std::unorder
     save_avg_strat(experiment_dir, nodes);
 }
 
+void load_avg_strat(const std::string& filepath, std::array<std::unordered_map<std::string, Node>, 4>& nodes) {
+    std::ifstream in(filepath, std::ios::binary);
+    if (!in.is_open()) {
+        throw std::runtime_error("Failed to open file for reading: " + filepath);
+    }
+
+    for (int street = 0; street < 4; street++) {
+        uint32_t num_infosets;
+        in.read(reinterpret_cast<char*>(&num_infosets), sizeof(num_infosets));
+
+        for (uint32_t i = 0; i < num_infosets; i++) {
+            uint32_t key_len;
+            in.read(reinterpret_cast<char*>(&key_len), sizeof(key_len));
+            std::string key(key_len, '\0');
+            in.read(key.data(), key_len);
+
+            Node node;
+
+            uint32_t num_actions;
+            in.read(reinterpret_cast<char*>(&num_actions), sizeof(num_actions));
+
+            node.actions.resize(num_actions);
+            for (uint32_t j = 0; j < num_actions; j++) {
+                uint32_t action_len;
+                in.read(reinterpret_cast<char*>(&action_len), sizeof(action_len));
+                node.actions[j].resize(action_len);
+                in.read(node.actions[j].data(), action_len);
+            }
+
+            node.avg_strat.resize(num_actions);
+            in.read(reinterpret_cast<char*>(node.avg_strat.data()), num_actions * sizeof(float));
+
+            nodes[street][key] = std::move(node);
+        }
+    }
+}
+
 void load_nodes(const std::string& filepath, std::array<std::unordered_map<std::string, Node>, 4>& nodes) {
     std::ifstream in(filepath, std::ios::binary);
     if (!in.is_open()) {
