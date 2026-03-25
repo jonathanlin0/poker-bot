@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Bot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=IBM+Plex+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-page">
+    <nav class="nav">
+        <a href="/" class="nav-title">poker.jonathanlin.net</a>
+    </nav>
+    <div class="login-container">
+        <h1>Poker Bot</h1>
+        <p>Play heads-up No Limit Hold'em against a CFR-trained bot.</p>
+        <form id="login-form">
+            <input type="text" id="username-input" placeholder="Enter username" autocomplete="off" required>
+            <button type="submit">Play</button>
+        </form>
+        <p id="error-msg" class="error" hidden></p>
+    </div>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username-input').value.trim();
+            const errorEl = document.getElementById('error-msg');
+            errorEl.hidden = true;
+
+            if (!/^[a-zA-Z0-9]+$/.test(username)) {
+                errorEl.textContent = 'Username must be alphanumeric and non-empty';
+                errorEl.hidden = false;
+                return;
+            }
+
+            window.location.href = '/play/' + encodeURIComponent(username);
+        });
+    </script>
+</body>
+</html>

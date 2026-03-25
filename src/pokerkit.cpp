@@ -102,7 +102,7 @@ void PokerKit::start_preflop() {
 }
 
 
-Action PokerKit::get_current_bet() const {
+Action PokerKit::get_last_action() const {
     const auto& current_round = bets.back();
     if (current_round.empty()) {
         return Action('x', 0);  // No action yet

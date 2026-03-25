@@ -27,6 +27,8 @@ public:
     // Get the amount a player has bet for the current betting street
     uint16_t get_player_current_raise(uint8_t player) const;
     std::string debug_print_history() const;  // Returns betting history as string for debugging
+    // Returns the last action on the current betting street, or Action('x', 0) if no actions yet.
+    Action get_last_action() const;
 
     // Actions
     void check_or_call();
@@ -54,7 +56,6 @@ private:
     void deal_hands();
     void start_preflop();
     
-    Action get_current_bet() const;
     int8_t calculate_winner(); // returns -1 for tie, 0 for SB win, 1 for BB win
     void settle_pot();
 };

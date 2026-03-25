@@ -82,5 +82,5 @@ set(CROW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(CROW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(crow)
 
-add_executable(poker_server src/server.cpp src/server_util.cpp)
+add_executable(poker_server src/server_main.cpp src/server_game_util.cpp src/server_db_util.cpp src/server_response_builder.cpp)
 target_link_libraries(poker_server PRIVATE poker_lib Crow::Crow SQLite3::SQLite3)
