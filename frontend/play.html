@@ -9,90 +9,94 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=IBM+Plex+Mono:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="game-page">
+<body class="play-page">
     <nav class="nav">
         <a href="/" class="nav-title">poker.jonathanlin.net</a>
     </nav>
-    <div class="layout">
-        <!-- Left sidebar: instructions -->
-        <aside class="sidebar">
-            <h2>Instructions</h2>
-            <p>Welcome to the Poker Game!</p>
 
-            <h3>Game Rules</h3>
-            <ul>
-                <li>Heads-up No Limit Texas Hold'em (2 players).</li>
-                <li>Starting stack: 100 BB each hand.</li>
-                <li>Max 2 raises per betting street.</li>
-                <li>Preflop raises are in BB multiples. Postflop raises are pot fractions.</li>
-                <li>Postflop pot fractions are relative to the <b>effective pot</b> (pot + amount to call), not just the displayed pot. This is the standard poker convention.</li>
-                <li>Folding when checking is available is removed as a valid action, since folding would be a strictly worse move.</li>
-            </ul>
-
-            <h3>How to Play</h3>
-            <ul>
-                <li>Click an action button to play. Greyed-out buttons are not legal right now.</li>
-                <li><b>f</b> = fold, <b>ch</b> = check, <b>c</b> = call, <b>a</b> = all-in</li>
-                <li>Number buttons are raise sizes. Preflop: BB multiples. Postflop: pot fractions.</li>
-            </ul>
-        </aside>
-
-        <!-- Main game area -->
-        <main class="game-area">
-            <div class="game-header">
-                <h2>Welcome, <span id="username-display"></span></h2>
-                <p class="profit-line">Your profit: <span id="user-profit">0.0</span> BB | Bot profit: <span id="bot-profit">0.0</span> BB | Hands played: <span id="hands-played">0</span></p>
-                <p id="game-prompt">Press an action below to play</p>
-            </div>
-
-            <div class="game-info">
-                <p>User Position: <span id="position-display">--</span></p>
-            </div>
-
-            <!-- Action buttons -->
-            <div id="action-buttons" class="action-grid">
-                <div class="action-row" id="row-basic"></div>
-                <div class="action-row" id="row-raises"></div>
-                <div class="action-row" id="row-allin"></div>
-            </div>
-
-
-            <!-- Cards and board -->
-            <div class="cards-section">
-                <div class="card-row">
-                    <span class="label">Your Hand:</span>
-                    <span id="player-cards" class="card-display"></span>
+    <div class="play-layout">
+        <!-- Left: active game -->
+        <div class="play-left">
+            <div class="play-panel">
+                <div class="game-header">
+                    <h2>Welcome, <span id="username-display"></span></h2>
+                    <p id="game-prompt">Press an action below to play</p>
                 </div>
-                <div class="card-row" id="bot-cards-row" hidden>
-                    <span class="label">Bot Hand:</span>
-                    <span id="bot-cards" class="card-display"></span>
+
+                <div class="game-info">
+                    <p>Position: <span id="position-display">--</span></p>
+                </div>
+
+                <div id="action-buttons" class="action-grid">
+                    <div class="action-row" id="row-basic"></div>
+                    <div class="action-row" id="row-raises"></div>
+                    <div class="action-row" id="row-allin"></div>
+                </div>
+
+                <div class="cards-section">
+                    <div class="card-row">
+                        <span class="label">Your Hand:</span>
+                        <span id="player-cards" class="card-display"></span>
+                    </div>
+                    <div class="card-row" id="bot-cards-row" hidden>
+                        <span class="label">Bot Hand:</span>
+                        <span id="bot-cards" class="card-display"></span>
+                    </div>
+                </div>
+
+                <div class="board-section">
+                    <div class="board-row"><span class="label">Board:</span> <span id="board-cards" class="card-display"></span></div>
+                </div>
+
+                <div class="stacks-section">
+                    <p>User stack: <span id="player-stack">--</span> BB</p>
+                    <p>Bot stack: <span id="bot-stack">--</span> BB</p>
+                    <p>Pot size: <span id="pot-size">--</span> BB</p>
+                </div>
+
+                <div id="result-display" class="result-display" hidden></div>
+
+                <div class="history-section">
+                    <h3>Current Hand History</h3>
+                    <div id="current-history"></div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="instructions-section">
+                    <h3>Instructions</h3>
+                    <h4>Game Rules</h4>
+                    <ul>
+                        <li>Heads-up No Limit Texas Hold'em (2 players).</li>
+                        <li>Starting stack: 100 BB each hand.</li>
+                        <li>Max 2 raises per betting street.</li>
+                        <li>Preflop raises are in BB multiples. Postflop raises are pot fractions.</li>
+                        <li>Postflop pot fractions are relative to the <b>effective pot</b> (pot + amount to call), not just the displayed pot.</li>
+                        <li>Folding when checking is available is removed as a valid action.</li>
+                    </ul>
+                    <h4>How to Play</h4>
+                    <ul>
+                        <li>Click an action button to play. Greyed-out buttons are not legal right now.</li>
+                        <li><b>f</b> = fold, <b>ch</b> = check, <b>c</b> = call, <b>a</b> = all-in</li>
+                        <li>Number buttons are raise sizes. Preflop: BB multiples. Postflop: pot fractions.</li>
+                    </ul>
                 </div>
             </div>
+        </div>
 
-            <div class="board-section">
-                <div class="board-row"><span class="label">Board:</span> <span id="board-cards" class="card-display"></span></div>
+        <!-- Right: stats and history -->
+        <div class="play-right">
+            <div class="play-panel">
+                <h3>Stats</h3>
+                <p>Your profit: <span id="user-profit">0.0</span> BB</p>
+                <p>Bot profit: <span id="bot-profit">0.0</span> BB</p>
+                <p>Hands played: <span id="hands-played">0</span></p>
             </div>
 
-            <div class="stacks-section">
-                <p>User stack: <span id="player-stack">--</span> BB</p>
-                <p>Bot stack: <span id="bot-stack">--</span> BB</p>
-                <p>Pot size: <span id="pot-size">--</span> BB</p>
-            </div>
-
-            <div id="result-display" class="result-display" hidden></div>
-
-            <!-- Betting history for current hand -->
-            <div class="history-section">
-                <h3>Current Hand History</h3>
-                <div id="current-history"></div>
-            </div>
-
-            <!-- Past hands -->
-            <div class="past-hands-section">
+            <div class="play-panel">
                 <h3>Past Hands</h3>
                 <div id="past-hands"></div>
             </div>
-        </main>
+        </div>
     </div>
     <script src="/js/game.js"></script>
 </body>

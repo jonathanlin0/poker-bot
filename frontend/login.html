@@ -17,7 +17,7 @@
         <h1>Poker Bot</h1>
         <p>Play heads-up No Limit Hold'em against a CFR-trained bot.</p>
         <form id="login-form">
-            <input type="text" id="username-input" placeholder="Enter username" autocomplete="off" required>
+            <input type="text" id="username-input" placeholder="Enter username" autocomplete="off">
             <button type="submit">Play</button>
         </form>
         <p id="error-msg" class="error" hidden></p>
@@ -29,8 +29,13 @@
             const errorEl = document.getElementById('error-msg');
             errorEl.hidden = true;
 
+            if (!username) {
+                errorEl.textContent = 'Please enter a username';
+                errorEl.hidden = false;
+                return;
+            }
             if (!/^[a-zA-Z0-9]+$/.test(username)) {
-                errorEl.textContent = 'Username must be alphanumeric and non-empty';
+                errorEl.textContent = 'Username must be alphanumeric';
                 errorEl.hidden = false;
                 return;
             }
