@@ -46,8 +46,29 @@ cmake -B build && cmake --build build -j1 && ./build/poker_tests
 - `include/config.hpp` - Config constants
 - `include/` - Header files
 - `src/` - Source files
+- `frontend/` - Static files for demo website
 - `data/` - Generated precomputed equity and training output
 - `build/` - Cmake build output and compiled binaries
+
+## Demo Website
+
+Play against the trained bot through a web interface.
+
+![demo website screenshot](figs/website-play.png)
+### Requirements
+SQLite3 development headers are required (pre-installed on macOS; on Linux: `sudo apt install libsqlite3-dev`).
+
+### Build and Run
+```
+# build
+cmake -B build && cmake --build build --target poker_server
+
+# run (requires trained weights at data/{experiment_name}/avg_strat.bin)
+# an instance of the weights can be obtained by training an instance of the bot using the instructions above 
+./build/poker_server
+```
+
+The server listens on port 9001. Can be locally accessed via `http://localhost:9001`.
 
 ## Visualizations
 
