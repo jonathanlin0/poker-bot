@@ -227,3 +227,19 @@ float get_total_profit(int player_id) {
     sqlite3_finalize(stmt);
     return total;
 }
+
+vector<PlayerStats> get_all_player_stats() {
+    vector<PlayerStats> stats;
+    sqlite3_stmt* stmt;
+    sqlite3_prepare_v2(db, "SELECT id, username FROM players ORDER BY username", -1, &stmt, nullptr);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int player_id = sqlite3_column_int(stmt, 0);
+        string username = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        int hands = get_hand_count(player_id);
+        float profit = get_total_profit(player_id);
+        stats.push_back(PlayerStats{username, hands, profit});
+    }
+    sqlite3_finalize(stmt);
+    return stats;
+}

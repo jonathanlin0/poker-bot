@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Bot - Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=IBM+Plex+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="leaderboard-page">
+    <nav class="nav">
+        <a href="/" class="nav-title">poker.jonathanlin.net</a>
+    </nav>
+    <div class="leaderboard-container">
+        <div style="margin-bottom: 1rem;">
+            <a href="/" class="home-button home-button-small">&larr; Back</a>
+        </div>
+        <h1>Leaderboard</h1>
+        <table class="leaderboard-table" id="leaderboard-table">
+            <thead>
+                <tr>
+                    <th data-col="username" class="sortable">Player<span class="sort-arrow"></span></th>
+                    <th data-col="hands" class="sortable">Hands<span class="sort-arrow"></span></th>
+                    <th data-col="profit" class="sortable">Player Profit<span class="sort-arrow"></span></th>
+                    <th data-col="botprofit" class="sortable">Bot Profit<span class="sort-arrow"></span></th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+                <tr><td colspan="4">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        let players = [];
+        let sortCol = null;
+        let sortDir = null; // null = default, 'asc', 'desc'
+
+        function renderTable() {
+            let sorted = [...players];
+
+            if (sortCol && sortDir) {
+                sorted.sort((a, b) => {
+                    let va, vb;
+                    if (sortCol === 'username') { va = a.username.toLowerCase(); vb = b.username.toLowerCase(); }
+                    else if (sortCol === 'hands') { va = a.hands; vb = b.hands; }
+                    else if (sortCol === 'profit') { va = a.profit; vb = b.profit; }
+                    else if (sortCol === 'botprofit') { va = -a.profit; vb = -b.profit; }
+                    if (va < vb) return sortDir === 'asc' ? -1 : 1;
+                    if (va > vb) return sortDir === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            } else {
+                sorted.sort((a, b) => b.profit - a.profit);
+            }
+
+            const tbody = document.getElementById('leaderboard-body');
+            tbody.innerHTML = '';
+
+            if (sorted.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4">No players yet.</td></tr>';
+                return;
+            }
+
+            sorted.forEach(p => {
+                const perHand = p.hands > 0 ? (p.profit / p.hands).toFixed(2) : '0.00';
+                const botPerHand = p.hands > 0 ? (-p.profit / p.hands).toFixed(2) : '0.00';
+                const profitClass = p.profit >= 0 ? 'leaderboard-positive' : 'leaderboard-negative';
+                const botProfitClass = p.profit <= 0 ? 'leaderboard-positive' : 'leaderboard-negative';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${p.username}</td>
+                    <td>${p.hands}</td>
+                    <td class="${profitClass}">${p.profit.toFixed(1)} (${perHand}/hand)</td>
+                    <td class="${botProfitClass}">${(-p.profit).toFixed(1)} (${botPerHand}/hand)</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.querySelectorAll('.sortable').forEach(th => {
+                const arrow = th.querySelector('.sort-arrow');
+                arrow.textContent = (th.dataset.col === sortCol && sortDir)
+                    ? (sortDir === 'asc' ? '▲' : '▼')
+                    : '';
+            });
+        }
+
+        function handleSort(col) {
+            if (sortCol === col) {
+                if (sortDir === 'asc') sortDir = 'desc';
+                else if (sortDir === 'desc') { sortCol = null; sortDir = null; }
+            } else {
+                sortCol = col;
+                sortDir = 'asc';
+            }
+            renderTable();
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const res = await fetch('/leaderboard.json');
+                if (!res.ok) return;
+                const data = await res.json();
+                players = data.players;
+                renderTable();
+            } catch (err) {
+                console.error('Failed to load leaderboard:', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLeaderboard();
+            document.querySelectorAll('.sortable').forEach(th => {
+                th.addEventListener('click', () => handleSort(th.dataset.col));
+            });
+        });
+    </script>
+</body>
+</html>

@@ -131,6 +131,73 @@ h1, h2, h3, h4, h5, h6 {
     padding: 4px 32px;
 }
 
+.home-button-small {
+    font-size: 1em;
+    padding: 4px 20px;
+}
+
+/* ==================== Leaderboard Page ==================== */
+
+.leaderboard-page {
+    padding-top: 56px;
+    min-height: 100vh;
+}
+
+.leaderboard-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.leaderboard-container h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #171717;
+    font-size: 14px;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    border: 1px solid #171717;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.leaderboard-table th {
+    background-color: #171717;
+    color: #FFF3DD;
+    font-weight: bold;
+}
+
+.leaderboard-table tr:nth-child(even) {
+    background-color: rgba(23, 23, 23, 0.05);
+}
+
+.leaderboard-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 24px;
+}
+
+.leaderboard-table th.sortable:hover {
+    opacity: 0.8;
+}
+
+.sort-arrow {
+    position: absolute;
+    right: 8px;
+}
+
+.leaderboard-positive { color: #16a34a; }
+.leaderboard-negative { color: #dc2626; }
+
 /* ==================== Login Page ==================== */
 
 .login-page {
@@ -285,6 +352,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .instructions-section h4 {
     font-family: "EB Garamond", serif;
+    font-weight: bold;
     margin-top: 12px;
     margin-bottom: 4px;
     font-size: 1em;

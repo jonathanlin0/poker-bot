@@ -22,4 +22,12 @@ std::vector<HandData> get_past_hands(int player_id, int limit = 20);
 // TODO: currently an expensive-ish operation due to calling build_game() n times
 float get_total_profit(int player_id);
 
+struct PlayerStats {
+    std::string username;
+    int hands;
+    float profit;
+};
+// Returns all player stats
+std::vector<PlayerStats> get_all_player_stats();
+
 #endif // SERVER_DB_UTIL_HPP

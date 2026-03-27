@@ -196,6 +196,30 @@ int main() {
         return resp;
     });
 
+    // Leaderboard page
+    CROW_ROUTE(app, "/leaderboard")([] {
+        auto html = read_file(STATIC_DIR + "/leaderboard.html");
+        if (html.empty()) return response(404, "File not found");
+        auto resp = response(html);
+        resp.set_header("Content-Type", "text/html");
+        return resp;
+    });
+
+    // Leaderboard data
+    CROW_ROUTE(app, "/leaderboard.json")([] {
+        auto players = get_all_player_stats();
+        crow::json::wvalue resp;
+        for (size_t i = 0; i < players.size(); i++) {
+            resp["players"][i]["username"] = players[i].username;
+            resp["players"][i]["hands"] = players[i].hands;
+            resp["players"][i]["profit"] = players[i].profit;
+        }
+        if (players.empty()) {
+            resp["players"] = vector<crow::json::wvalue>{};
+        }
+        return response(resp);
+    });
+
     // Health check endpoint
     CROW_ROUTE(app, "/health")([] {
         crow::json::wvalue resp;
