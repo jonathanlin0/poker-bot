@@ -37,9 +37,7 @@ using crow::response;
 namespace filesystem = std::filesystem;
 
 
-const string EXPERIMENT_NAME = "default";
 const string DB_PATH = "data/poker_data.sqlite3";
-const string AVG_STRAT_PATH = "data/" + EXPERIMENT_NAME + "/avg_strat.bin";
 const string STATIC_DIR = "frontend";
 const int PORT = 9001;
 const int NUM_SERVER_THREADS = 5;
@@ -158,7 +156,20 @@ void run_bot_loop(HandData& hand) {
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
+    string experiment_name = "";
+
+    for (int i = 1; i < argc; i++) {
+        if (string(argv[i]) == "-n" && i + 1 < argc) {
+            experiment_name = argv[++i];
+        } else {
+            cerr << "Usage: " << argv[0] << " -n <name>" << endl;
+            return 1;
+        }
+    }
+
+    const string AVG_STRAT_PATH = "data/" + experiment_name + "/avg_strat.bin";
+
     if (!filesystem::exists(AVG_STRAT_PATH)) {
         throw std::runtime_error("Weights file not found: " + AVG_STRAT_PATH);
     }
