@@ -375,13 +375,45 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 2px solid #171717;
 }
 
-.instructions-section h3 {
+.instructions-toggle {
+    font-family: "EB Garamond", serif;
     font-weight: bold;
     font-size: 1.2em;
-    margin-bottom: 8px;
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+    padding: 8px 16px;
+    border: 2px solid #171717;
+    transition: all 0.2s ease;
 }
 
-.instructions-section h4 {
+.instructions-toggle:hover {
+    background-color: #171717;
+    color: #FFF3DD;
+}
+
+.instructions-toggle::-webkit-details-marker {
+    display: none;
+}
+
+.instructions-toggle::after {
+    content: "\25BC";
+    font-size: 0.55em;
+    transition: transform 0.2s ease;
+}
+
+.instructions-section[open] > .instructions-toggle::after {
+    transform: rotate(180deg);
+}
+
+.instructions-content {
+    margin-top: 8px;
+}
+
+.instructions-content h4 {
     font-family: "EB Garamond", serif;
     font-weight: bold;
     margin-top: 12px;
@@ -389,12 +421,12 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1em;
 }
 
-.instructions-section ul {
+.instructions-content ul {
     padding-left: 20px;
     font-size: 13px;
 }
 
-.instructions-section li {
+.instructions-content li {
     margin-bottom: 4px;
 }
 
