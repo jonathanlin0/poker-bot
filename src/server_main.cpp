@@ -12,6 +12,7 @@
 #include "../include/serialization.hpp"
 #include "../include/util.hpp"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <filesystem>
@@ -32,6 +33,7 @@ using std::mutex;
 using std::string;
 using std::unordered_map;
 using std::vector;
+using std::transform;
 using crow::request;
 using crow::response;
 namespace filesystem = std::filesystem;
@@ -248,7 +250,9 @@ int main(int argc, char* argv[]) {
     });
 
     // Upserts player, ensures a hand exists, and serves the game page
-    CROW_ROUTE(app, "/play/<string>")([](const string& username) {
+    CROW_ROUTE(app, "/play/<string>")([](string username) {
+        // convert username to lowercase
+        transform(username.begin(), username.end(), username.begin(), ::tolower);
         if (!is_valid_username(username)) {
             return response(400, "Invalid username");
         }

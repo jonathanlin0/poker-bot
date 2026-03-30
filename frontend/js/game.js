@@ -291,6 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/play';
         return;
     }
+    const lower = username.toLowerCase();
+    if (username !== lower) {
+        window.location.replace('/play/' + encodeURIComponent(lower));
+        return;
+    }
     document.getElementById('username-display').textContent = username;
 
     fetchGameState();
