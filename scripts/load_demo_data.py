@@ -21,6 +21,15 @@ def format_bytes(n):
     return f"{n:.1f} TB"
 
 
+def get_remote_size(url):
+    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return int(resp.headers.get("Content-Length", 0))
+    except Exception:
+        return 0
+
+
 def download(url, dest):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req) as resp, open(dest, "wb") as f:
@@ -48,9 +57,20 @@ os.makedirs(DATA_DIR, exist_ok=True)
 
 for filename in FILES:
     dest = os.path.join(DATA_DIR, filename)
-    if os.path.exists(dest):
-        print(f"{dest} already exists, skipping")
-        continue
     url = f"{BASE_URL}/{filename}"
+
+    if os.path.exists(dest):
+        local_size = os.path.getsize(dest)
+        remote_size = get_remote_size(url)
+        if not remote_size:
+            print(f"{filename}: could not check remote size, keeping local copy")
+            continue
+        if local_size != remote_size:
+            print(f"{filename} changed ({format_bytes(local_size)} -> {format_bytes(remote_size)}), re-downloading...")
+            os.remove(dest)
+        else:
+            print(f"{dest} is up to date, skipping")
+            continue
+
     print(f"Downloading {filename}...")
     download(url, dest)
