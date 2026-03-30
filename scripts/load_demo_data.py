@@ -5,7 +5,6 @@ import urllib.request
 BASE_URL = "https://jonathanlin.net/media/public/poker/prod_demo_files"
 DATA_DIR = "data"
 CHUNK_SIZE = 8192
-BAR_WIDTH = 40
 
 FILES = [
     "avg_strat.bin",
@@ -35,6 +34,7 @@ def download(url, dest):
     with urllib.request.urlopen(req) as resp, open(dest, "wb") as f:
         total = int(resp.headers.get("Content-Length", 0))
         downloaded = 0
+        last_milestone = 0
         while True:
             chunk = resp.read(CHUNK_SIZE)
             if not chunk:
@@ -42,15 +42,17 @@ def download(url, dest):
             f.write(chunk)
             downloaded += len(chunk)
             if total:
-                pct = downloaded / total
-                filled = int(BAR_WIDTH * pct)
-                bar = "█" * filled + "░" * (BAR_WIDTH - filled)
-                line = f"\r  [{bar}] {pct:6.1%}  {format_bytes(downloaded)} / {format_bytes(total)}"
-                sys.stdout.write(line.ljust(80))
+                pct = int(downloaded / total * 100)
+                if pct >= last_milestone + 10:
+                    last_milestone = pct // 10 * 10
+                    print(f"  {last_milestone}% - {format_bytes(downloaded)} / {format_bytes(total)}")
             else:
-                sys.stdout.write(f"\r  {format_bytes(downloaded)} downloaded".ljust(80))
-            sys.stdout.flush()
-    print()
+                pct = int(downloaded / total * 100) if total else 0
+                if pct >= last_milestone + 10:
+                    last_milestone = pct // 10 * 10
+                    print(f"  {format_bytes(downloaded)} downloaded")
+    if total:
+        print(f"  100% - {format_bytes(downloaded)} / {format_bytes(total)}")
 
 
 os.makedirs(DATA_DIR, exist_ok=True)
