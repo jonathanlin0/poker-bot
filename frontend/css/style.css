@@ -168,6 +168,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1.5rem;
 }
 
+.leaderboard-table-wrapper {
+    overflow-x: auto;
+}
+
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
@@ -335,6 +339,19 @@ h1, h2, h3, h4, h5, h6 {
     }
     .home-container h1 {
         font-size: 2em;
+    }
+    .leaderboard-container {
+        padding: 1.5rem 1rem;
+    }
+    .leaderboard-table {
+        font-size: 12px;
+    }
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 6px 6px;
+    }
+    .leaderboard-table th.sortable {
+        padding-right: 18px;
     }
     .login-container {
         border: none;
