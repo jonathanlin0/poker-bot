@@ -322,6 +322,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 800px) {
+    .nav {
+        padding: 0 16px;
+    }
+    .nav-title,
+    .nav-name {
+        font-size: 1.1em;
+    }
+    .home-container {
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+    .home-container h1 {
+        font-size: 2em;
+    }
     .login-container {
         border: none;
         box-shadow: none;
