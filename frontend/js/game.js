@@ -51,18 +51,19 @@ function formatStreetActions(street, streetIdx, playerSeat) {
 function renderHistory(history, containerId, playerSeat) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
-    if (!history || history.length === 0) {
-        container.textContent = 'No actions yet.';
-        return;
-    }
-    history.forEach((street, streetIdx) => {
+    for (let streetIdx = 0; streetIdx < STREET_NAMES.length; streetIdx++) {
         const div = document.createElement('div');
         div.className = 'street-history';
-        const label = STREET_NAMES[streetIdx] || 'Street ' + streetIdx;
-        const actions = street.length > 0 ? ' ' + formatStreetActions(street, streetIdx, playerSeat) : '';
+        const label = STREET_NAMES[streetIdx];
+        const reached = history && streetIdx < history.length;
+        let actions = '';
+        if (reached && history[streetIdx].length > 0) {
+            actions = ' ' + formatStreetActions(history[streetIdx], streetIdx, playerSeat);
+        }
         div.innerHTML = `<span class="street-label">${label}:</span>${actions}`;
+        if (!reached) div.style.visibility = 'hidden';
         container.appendChild(div);
-    });
+    }
 }
 
 function renderActions(allActions, validActions) {
