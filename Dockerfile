@@ -37,7 +37,9 @@ WORKDIR /app
 COPY --from=builder /app/build/poker_server .
 COPY frontend/ frontend/
 COPY scripts/load_demo_data.py scripts/
+COPY scripts/entrypoint.sh scripts/
+RUN chmod +x scripts/entrypoint.sh
 
 EXPOSE 9001
 
-CMD python3 scripts/load_demo_data.py && ./poker_server
+ENTRYPOINT ["scripts/entrypoint.sh"]
