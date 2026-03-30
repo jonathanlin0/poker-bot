@@ -325,50 +325,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 24px 28px;
 }
 
-@media (max-width: 800px) {
-    .nav {
-        padding: 0 16px;
-    }
-    .nav-title,
-    .nav-name {
-        font-size: 1.1em;
-    }
-    .home-container {
-        margin-left: 0;
-        padding: 1.5rem;
-    }
-    .home-container h1 {
-        font-size: 2em;
-    }
-    .leaderboard-container {
-        padding: 1.5rem 1rem;
-    }
-    .leaderboard-table {
-        font-size: 12px;
-    }
-    .leaderboard-table th,
-    .leaderboard-table td {
-        padding: 6px 6px;
-    }
-    .leaderboard-table th.sortable {
-        padding-right: 18px;
-    }
-    .login-container {
-        border: none;
-        box-shadow: none;
-    }
-    .play-layout {
-        flex-direction: column;
-    }
-    .play-right {
-        width: 100%;
-    }
-    .play-panel {
-        border: none;
-        box-shadow: none;
-        padding: 16px 0;
-    }
-}
 
 .game-header h2 {
     font-weight: bold;
@@ -638,4 +594,66 @@ h1, h2, h3, h4, h5, h6 {
     color: #171717;
     opacity: 0.6;
     font-weight: bold;
+}
+
+@media (max-width: 800px) {
+    .nav {
+        padding: 0 16px;
+    }
+    .nav-title,
+    .nav-name {
+        font-size: 1.1em;
+    }
+    .home-container {
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+    .home-container h1 {
+        font-size: 2em;
+    }
+    .leaderboard-container {
+        padding: 1.5rem 1rem;
+    }
+    .leaderboard-table {
+        font-size: 12px;
+    }
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 6px 6px;
+    }
+    .leaderboard-table th.sortable {
+        padding-right: 18px;
+    }
+    .login-container {
+        border: none;
+        box-shadow: none;
+    }
+    .play-layout {
+        flex-direction: column;
+    }
+    .play-right {
+        width: 100%;
+    }
+    .play-panel {
+        border: none;
+        box-shadow: none;
+        padding: 16px 0;
+    }
+    .btn-action:hover:not(:disabled) {
+        background-color: transparent;
+        color: #171717;
+    }
+    .home-button:hover {
+        background-color: transparent;
+        color: #171717;
+        opacity: 1 !important;
+    }
+    .instructions-toggle:hover {
+        background-color: transparent;
+        color: #171717;
+    }
+    .login-container button:hover {
+        background-color: transparent;
+        color: #171717;
+    }
 }
