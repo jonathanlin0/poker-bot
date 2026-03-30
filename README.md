@@ -65,7 +65,7 @@ Run via docker
 docker build -t poker-bot-demo-server .
 
 # run the container
-docker run -d -p 9001:9001 --name poker-bot-demo-server -v ./data:/app/data poker-bot-demo-server
+docker stop poker-bot-demo-server && docker rm poker-bot-demo-server && docker run -d -p 9001:9001 --name poker-bot-demo-server -v ./data:/app/data poker-bot-demo-server
 ```
 
 Run *without* Docker
