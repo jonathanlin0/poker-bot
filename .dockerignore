@@ -1,0 +1,7 @@
+build/
+data/
+.git/
+.vscode/
+figs/
+*.md
+__pycache__/

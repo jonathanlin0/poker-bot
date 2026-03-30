@@ -59,6 +59,16 @@ Play against the trained bot through a web interface.
 SQLite3 development headers are required (pre-installed on macOS; on Linux: `sudo apt install libsqlite3-dev`).
 
 ### Build and Run
+Run via docker
+```
+# build the image
+docker build -t poker-bot-demo-server .
+
+# run the container
+docker run -d -p 9001:9001 --name poker-bot-demo-server -v ./data:/app/data poker-bot-demo-server
+```
+
+Run *without* Docker
 ```
 # build
 cmake -B build && cmake --build build --target poker_server

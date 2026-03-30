@@ -58,9 +58,6 @@ gtest_discover_tests(poker_tests)
 
 # ==================== Web Server ====================
 
-# TODO: fetch this via FetchContent or create a dockerfile to containerize the server/website
-find_package(SQLite3 REQUIRED)
-
 # Fetch standalone Asio (header-only, required by Crow)
 FetchContent_Declare(
     asio
@@ -82,5 +79,7 @@ set(CROW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(CROW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(crow)
 
+find_package(SQLite3 REQUIRED)
 add_executable(poker_server src/server_main.cpp src/server_game_util.cpp src/server_db_util.cpp src/server_response_builder.cpp)
-target_link_libraries(poker_server PRIVATE poker_lib Crow::Crow SQLite3::SQLite3)
+target_include_directories(poker_server PRIVATE ${SQLite3_INCLUDE_DIRS})
+target_link_libraries(poker_server PRIVATE poker_lib Crow::Crow ${SQLite3_LIBRARIES})
