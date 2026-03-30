@@ -56,11 +56,11 @@ function renderHistory(history, containerId, playerSeat) {
         return;
     }
     history.forEach((street, streetIdx) => {
-        if (street.length === 0) return;
         const div = document.createElement('div');
         div.className = 'street-history';
         const label = STREET_NAMES[streetIdx] || 'Street ' + streetIdx;
-        div.innerHTML = `<span class="street-label">${label}:</span> ${formatStreetActions(street, streetIdx, playerSeat)}`;
+        const actions = street.length > 0 ? ' ' + formatStreetActions(street, streetIdx, playerSeat) : '';
+        div.innerHTML = `<span class="street-label">${label}:</span>${actions}`;
         container.appendChild(div);
     });
 }
