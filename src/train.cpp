@@ -39,6 +39,7 @@ using std::ofstream;
 using std::pair;
 using std::runtime_error;
 using std::stoi;
+using std::stoll;
 using std::string;
 using std::thread;
 using std::unordered_map;
@@ -134,6 +135,7 @@ void Trainer::save_metadata() {
     file << "num-threads:" << num_threads << "\n";
     file << "next-epoch-to-calculate-exploitability:" << next_epoch_to_calculate_exploitability << "\n";
     file << "next-epoch-to-perform-validation:" << next_epoch_to_perform_validation << "\n";
+    file << "total-hands-played:" << total_hands_played.load() << "\n";
 }
 
 void Trainer::load_metadata() {
@@ -153,6 +155,7 @@ void Trainer::load_metadata() {
         else if (key == "num-threads") { num_threads = stoi(value); }
         else if (key == "next-epoch-to-calculate-exploitability") { next_epoch_to_calculate_exploitability = stoi(value); }
         else if (key == "next-epoch-to-perform-validation") { next_epoch_to_perform_validation = stoi(value); }
+        else if (key == "total-hands-played") { total_hands_played = stoll(value); }
     }
     cout << "Loaded metadata:" << endl;
     cout << "  epoch=" << epoch << endl;
@@ -160,6 +163,7 @@ void Trainer::load_metadata() {
     cout << "  num_threads=" << num_threads << endl;
     cout << "  next_exploitability=" << next_epoch_to_calculate_exploitability << endl;
     cout << "  next_validation=" << next_epoch_to_perform_validation << endl;
+    cout << "  total_hands_played=" << total_hands_played << endl;
 }
 
 void Trainer::recalculate_strategies() {
