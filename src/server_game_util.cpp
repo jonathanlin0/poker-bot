@@ -13,16 +13,16 @@ using std::vector;
 
 string read_file(const string& path) {
     ifstream file(path);
-    if (!file.is_open()) return "";
+    if (!file.is_open()) { return ""; }
     ostringstream buf;
     buf << file.rdbuf();
     return buf.str();
 }
 
 bool is_valid_username(const string& username) {
-    if (username.empty()) return false;
+    if (username.empty()) { return false; }
     for (char c : username) {
-        if (!isalnum(c)) return false;
+        if (!isalnum(c)) { return false; }
     }
     return true;
 }
@@ -45,7 +45,7 @@ template<typename Container>
 string serialize_cards(const Container& cards) {
     string r = "[";
     for (size_t i = 0; i < cards.size(); i++) {
-        if (i) r += ",";
+        if (i) { r += ","; }
         r += "\"" + card_to_str(cards[i]) + "\"";
     }
     return r + "]";
@@ -56,10 +56,10 @@ template string serialize_cards(const vector<Card>&);
 string serialize_history(const vector<vector<Action>>& history) {
     string r = "[";
     for (size_t street = 0; street < history.size(); street++) {
-        if (street) r += ",";
+        if (street) { r += ","; }
         r += "[";
         for (size_t action = 0; action < history[street].size(); action++) {
-            if (action) r += ",";
+            if (action) { r += ","; }
             const auto& act = history[street][action];
             r += "{\"t\":\"" + string(1, act.type) + "\",\"a\":" + to_string(act.amount)
                  + ",\"p\":" + to_string(act.pot_multiplier) + "}";

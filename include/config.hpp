@@ -9,9 +9,6 @@
 // bot version (stored in DB with each hand)
 const std::string BOT_VERSION = "1.0.0";
 
-// general training constants
-const int EPOCHS = 2100000;
-
 // number of epochs ignored for updating strat sum
 const int AVERAGING_DELAY = 1000;
 

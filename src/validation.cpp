@@ -494,7 +494,7 @@ float best_response_value(
         float weighted_ev = 0.0f;
         for (const Action& a : valid_actions) {
             float prob = strategy[string(a)];
-            if (prob <= 0.0f) continue;
+            if (prob <= 0.0f) { continue; }
             PokerKit child_game = game;
             apply_action_to_game(child_game, a);
             all_history.back().push_back(a);

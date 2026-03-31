@@ -52,13 +52,13 @@ bool is_raise_valid(const vector<vector<Action>>& history, uint16_t raise_amount
 }
 
 bool is_game_over_from_history_vector(const vector<vector<Action>>& history) {
-    if (history.empty()) return false;
+    if (history.empty()) { return false; }
 
     const auto& last_street = history.back();
-    if (last_street.empty()) return false;
+    if (last_street.empty()) { return false; }
 
     // Someone folded
-    if (last_street.back().type == 'f') return true;
+    if (last_street.back().type == 'f') { return true; }
 
     // All 4 streets complete and last river action is a call/check
     if (history.size() == 4 && last_street.size() >= 2 && last_street.back().type == 'c') {
@@ -69,19 +69,19 @@ bool is_game_over_from_history_vector(const vector<vector<Action>>& history) {
 }
 
 bool is_betting_street_done(const vector<Action>& street) {
-    if (street.empty()) return false;
+    if (street.empty()) { return false; }
 
     // Someone folded
-    if (street.back().type == 'f') return true;
+    if (street.back().type == 'f') { return true; }
 
     // Count non-blind actions
     size_t non_blind_actions = 0;
     for (const Action& a : street) {
-        if (a.type != 'b') non_blind_actions++;
+        if (a.type != 'b') { non_blind_actions++; }
     }
 
     // Street is done when there are at least 2 non-blind actions and the last is a call/check
-    if (non_blind_actions >= 2 && street.back().type == 'c') return true;
+    if (non_blind_actions >= 2 && street.back().type == 'c') { return true; }
 
     return false;
 }
@@ -111,8 +111,8 @@ PokerKit build_game(
 
         // Replay actions for this street
         for (const Action& a : all_history[street]) {
-            if (a.type == 'b') continue; // skip blind posts
-            if (game.is_game_over()) break;
+            if (a.type == 'b') { continue; } // skip blind posts
+            if (game.is_game_over()) { break; }
             switch (a.type) {
                 case 'f': game.fold(); break;
                 case 'c': game.check_or_call(); break;
@@ -174,7 +174,7 @@ vector<Action> get_valid_actions(bool is_preflop, const PokerKit& game) {
     // Count raises in the current street
     int raises_this_street = 0;
     for (const auto& action : current_round) {
-        if (action.type == 'r') raises_this_street++;
+        if (action.type == 'r') { raises_this_street++; }
     }
 
     if (raises_this_street >= MAX_RAISES_PER_STREET) {

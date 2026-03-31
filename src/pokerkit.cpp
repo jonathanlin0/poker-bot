@@ -332,19 +332,19 @@ int8_t PokerKit::calculate_winner() {
         // Both have straight flush - compare ranks by creating cards with dummy suits and comparing them
         Card c0('C', p0_sf);
         Card c1('C', p1_sf);
-        if (c0 == c1) return -1;
-        if (c0 > c1) return 0;
+        if (c0 == c1) { return -1; }
+        if (c0 > c1) { return 0; }
         return 1;
     }
-    if (p0_sf != 'X') return 0;  // Only player 0 has straight flush
-    if (p1_sf != 'X') return 1;  // Only player 1 has straight flush
+    if (p0_sf != 'X') { return 0; }  // Only player 0 has straight flush
+    if (p1_sf != 'X') { return 1; }  // Only player 1 has straight flush
 
     // ================================ CHECK FOR QUADS ================================
     // Helper function to check for quads
     // Returns the rank index of the quads, or -1 if none found
     auto check_quads = [](const std::map<int, int>& rank_count) -> int {
         for (const auto& pair : rank_count) {
-            if (pair.second >= 4) return pair.first;
+            if (pair.second >= 4) { return pair.first; }
         }
         return -1;
     };
@@ -354,8 +354,8 @@ int8_t PokerKit::calculate_winner() {
     
     // Compare four of a kind results (higher index = higher rank)
     if (p0_quads != -1 && p1_quads != -1) {
-        if (p0_quads > p1_quads) return 0;  // higher index = higher rank
-        if (p1_quads > p0_quads) return 1;
+        if (p0_quads > p1_quads) { return 0; }  // higher index = higher rank
+        if (p1_quads > p0_quads) { return 1; }
         // Same quads — compare kicker (highest card that isn't the quad rank)
         // only have to check for existence of rank for kicker, since only 1 other card allowed per player
         Card p0_kicker('C', '2');  // dummy init
@@ -370,12 +370,12 @@ int8_t PokerKit::calculate_winner() {
                 p1_kicker = c;
             }
         }
-        if (p0_kicker > p1_kicker) return 0;
-        if (p1_kicker > p0_kicker) return 1;
+        if (p0_kicker > p1_kicker) { return 0; }
+        if (p1_kicker > p0_kicker) { return 1; }
         return -1;  // Same quads and same kicker — chop
     }
-    if (p0_quads != -1) return 0;
-    if (p1_quads != -1) return 1;
+    if (p0_quads != -1) { return 0; }
+    if (p1_quads != -1) { return 1; }
     
     // ================================ CHECK FOR FULL HOUSE ================================
     // Helper lambda to check for full house
@@ -393,7 +393,7 @@ int8_t PokerKit::calculate_winner() {
             }
         }
         
-        if (triple_rank == -1) return {-1, -1};  // No triple found
+        if (triple_rank == -1) { return {-1, -1}; }  // No triple found
         
         // Find the highest pair (different rank than triple)
         for (auto it = rank_count.rbegin(); it != rank_count.rend(); ++it) {
@@ -403,7 +403,7 @@ int8_t PokerKit::calculate_winner() {
             }
         }
         
-        if (pair_rank == -1) return {-1, -1};  // No pair found
+        if (pair_rank == -1) { return {-1, -1}; }  // No pair found
         
         return {triple_rank, pair_rank};
     };
@@ -413,15 +413,15 @@ int8_t PokerKit::calculate_winner() {
     
     // Compare full house results (higher index = higher rank)
     if (p0_fh_triple != -1 && p1_fh_triple != -1) {
-        if (p0_fh_triple > p1_fh_triple) return 0;    // Player 0 wins
-        if (p1_fh_triple > p0_fh_triple) return 1;    // Player 1 wins
+        if (p0_fh_triple > p1_fh_triple) { return 0; }    // Player 0 wins
+        if (p1_fh_triple > p0_fh_triple) { return 1; }    // Player 1 wins
         // Triple ranks are equal, compare pair ranks
-        if (p0_fh_pair > p1_fh_pair) return 0;
-        if (p1_fh_pair > p0_fh_pair) return 1;
+        if (p0_fh_pair > p1_fh_pair) { return 0; }
+        if (p1_fh_pair > p0_fh_pair) { return 1; }
         return -1;  // Tie
     }
-    if (p0_fh_triple != -1) return 0;  // Only player 0 has full house
-    if (p1_fh_triple != -1) return 1;  // Only player 1 has full house
+    if (p0_fh_triple != -1) { return 0; }  // Only player 0 has full house
+    if (p1_fh_triple != -1) { return 1; }  // Only player 1 has full house
     
     // ================================ CHECK FOR FLUSH ================================
     // Helper function to check for flush using precomputed suit_ranks
@@ -440,12 +440,12 @@ int8_t PokerKit::calculate_winner() {
     
     // Compare flush results (higher index = higher rank)
     if (p0_flush != -1 && p1_flush != -1) {
-        if (p0_flush > p1_flush) return 0;
-        if (p1_flush > p0_flush) return 1;
+        if (p0_flush > p1_flush) { return 0; }
+        if (p1_flush > p0_flush) { return 1; }
         return -1;  // Tie
     }
-    if (p0_flush != -1) return 0;  // Only player 0 has flush
-    if (p1_flush != -1) return 1;  // Only player 1 has flush
+    if (p0_flush != -1) { return 0; }  // Only player 0 has flush
+    if (p1_flush != -1) { return 1; }  // Only player 1 has flush
     
     // ================================ CHECK FOR STRAIGHT ================================
     // Helper function to check for straight
@@ -458,7 +458,7 @@ int8_t PokerKit::calculate_winner() {
         }
         // Already sorted since std::map is ordered
         
-        if (rank_indices.size() < 5) return -1;
+        if (rank_indices.size() < 5) { return -1; }
         
         // Iterate backwards to find highest straight first
         int consecutive = 1;
@@ -485,12 +485,12 @@ int8_t PokerKit::calculate_winner() {
     
     // Compare straight results (higher index = higher rank)
     if (p0_straight != -1 && p1_straight != -1) {
-        if (p0_straight > p1_straight) return 0;
-        if (p1_straight > p0_straight) return 1;
+        if (p0_straight > p1_straight) { return 0; }
+        if (p1_straight > p0_straight) { return 1; }
         return -1;  // Tie
     }
-    if (p0_straight != -1) return 0;  // Only player 0 has straight
-    if (p1_straight != -1) return 1;  // Only player 1 has straight
+    if (p0_straight != -1) { return 0; }  // Only player 0 has straight
+    if (p1_straight != -1) { return 1; }  // Only player 1 has straight
     
     // ================================ CHECK FOR THREE OF A KIND ================================
     // Helper function to check for three of a kind
@@ -510,8 +510,8 @@ int8_t PokerKit::calculate_winner() {
     
     // Compare three of a kind results (higher index = higher rank)
     if (p0_trips != -1 && p1_trips != -1) {
-        if (p0_trips > p1_trips) return 0;
-        if (p1_trips > p0_trips) return 1;
+        if (p0_trips > p1_trips) { return 0; }
+        if (p1_trips > p0_trips) { return 1; }
         // Same trips rank — compare top 2 kickers (highest non-trips ranks)
         // only have to check for existence of rank for kicker, since if another rank was paired,
         // the player would have a full house instead of three of a kind
@@ -519,25 +519,25 @@ int8_t PokerKit::calculate_winner() {
         for (auto it = p0_rank_count.rbegin(); it != p0_rank_count.rend(); ++it) {
             if (it->first != p0_trips) {
                 p0_kickers.push_back(it->first);
-                if (p0_kickers.size() == 2) break;
+                if (p0_kickers.size() == 2) { break; }
             }
         }
         std::vector<int> p1_kickers;
         for (auto it = p1_rank_count.rbegin(); it != p1_rank_count.rend(); ++it) {
             if (it->first != p1_trips) {
                 p1_kickers.push_back(it->first);
-                if (p1_kickers.size() == 2) break;
+                if (p1_kickers.size() == 2) { break; }
             }
         }
         // Compare kickers in order (highest first)
         for (size_t i = 0; i < 2 && i < p0_kickers.size() && i < p1_kickers.size(); ++i) {
-            if (p0_kickers[i] > p1_kickers[i]) return 0;
-            if (p1_kickers[i] > p0_kickers[i]) return 1;
+            if (p0_kickers[i] > p1_kickers[i]) { return 0; }
+            if (p1_kickers[i] > p0_kickers[i]) { return 1; }
         }
         return -1;  // Tie — same trips and same kickers
     }
-    if (p0_trips != -1) return 0;  // Only player 0 has three of a kind
-    if (p1_trips != -1) return 1;  // Only player 1 has three of a kind
+    if (p0_trips != -1) { return 0; }  // Only player 0 has three of a kind
+    if (p1_trips != -1) { return 1; }  // Only player 1 has three of a kind
     
     // ================================ CHECK FOR TWO PAIR ================================
     // Helper function to check for two pair
@@ -554,7 +554,7 @@ int8_t PokerKit::calculate_winner() {
             }
         }
         
-        if (low_pair == -1) return {-1, -1};  // Less than two pairs
+        if (low_pair == -1) { return {-1, -1}; }  // Less than two pairs
         return {high_pair, low_pair};
     };
     
@@ -563,11 +563,11 @@ int8_t PokerKit::calculate_winner() {
     
     // Compare two pair results (higher index = higher rank)
     if (p0_pair1 != -1 && p1_pair1 != -1) {
-        if (p0_pair1 > p1_pair1) return 0;
-        if (p1_pair1 > p0_pair1) return 1;
+        if (p0_pair1 > p1_pair1) { return 0; }
+        if (p1_pair1 > p0_pair1) { return 1; }
         // High pairs equal, compare second pair
-        if (p0_pair2 > p1_pair2) return 0;
-        if (p1_pair2 > p0_pair2) return 1;
+        if (p0_pair2 > p1_pair2) { return 0; }
+        if (p1_pair2 > p0_pair2) { return 1; }
         // Both pairs equal — compare kicker (highest card not part of either pair)
         // only have to check for existence of rank for kicker, since only 1 other card allowed per player
         int p0_kicker = -1;
@@ -586,12 +586,12 @@ int8_t PokerKit::calculate_winner() {
         }
         assert(p0_kicker != -1 && "Two pair kicker not found for player 0");
         assert(p1_kicker != -1 && "Two pair kicker not found for player 1");
-        if (p0_kicker > p1_kicker) return 0;
-        if (p1_kicker > p0_kicker) return 1;
+        if (p0_kicker > p1_kicker) { return 0; }
+        if (p1_kicker > p0_kicker) { return 1; }
         return -1;  // Tie — same two pair and same kicker
     }
-    if (p0_pair1 != -1) return 0;  // Only player 0 has two pair
-    if (p1_pair1 != -1) return 1;  // Only player 1 has two pair
+    if (p0_pair1 != -1) { return 0; }  // Only player 0 has two pair
+    if (p1_pair1 != -1) { return 1; }  // Only player 1 has two pair
     
     // ================================ CHECK FOR PAIR ================================
     // Helper function to check for pair
@@ -611,8 +611,8 @@ int8_t PokerKit::calculate_winner() {
     
     // Compare pair results (higher index = higher rank)
     if (p0_pair != -1 && p1_pair != -1) {
-        if (p0_pair > p1_pair) return 0;
-        if (p1_pair > p0_pair) return 1;
+        if (p0_pair > p1_pair) { return 0; }
+        if (p1_pair > p0_pair) { return 1; }
         // Same pair — compare top 3 kickers (highest non-pair ranks)
         // only have to check for existence of another rank for kicker. since if another rank was paired,
         // the player would have two-pair instead of a pair
@@ -620,26 +620,26 @@ int8_t PokerKit::calculate_winner() {
         for (auto it = p0_rank_count.rbegin(); it != p0_rank_count.rend(); ++it) {
             if (it->first != p0_pair) {
                 p0_kickers.push_back(it->first);
-                if (p0_kickers.size() == 3) break;
+                if (p0_kickers.size() == 3) { break; }
             }
         }
         std::vector<int> p1_kickers;
         for (auto it = p1_rank_count.rbegin(); it != p1_rank_count.rend(); ++it) {
             if (it->first != p1_pair) {
                 p1_kickers.push_back(it->first);
-                if (p1_kickers.size() == 3) break;
+                if (p1_kickers.size() == 3) { break; }
             }
         }
         // Compare kickers in order (highest first)
         // i < kickers.size() is defensive and we should never activate it
         for (size_t i = 0; i < 3 && i < p0_kickers.size() && i < p1_kickers.size(); ++i) {
-            if (p0_kickers[i] > p1_kickers[i]) return 0;
-            if (p1_kickers[i] > p0_kickers[i]) return 1;
+            if (p0_kickers[i] > p1_kickers[i]) { return 0; }
+            if (p1_kickers[i] > p0_kickers[i]) { return 1; }
         }
         return -1;  // Tie — same pair and same kickers
     }
-    if (p0_pair != -1) return 0;  // Only player 0 has pair
-    if (p1_pair != -1) return 1;  // Only player 1 has pair
+    if (p0_pair != -1) { return 0; }  // Only player 0 has pair
+    if (p1_pair != -1) { return 1; }  // Only player 1 has pair
     
     // ================================ CHECK FOR HIGH CARD ================================
     // Compare top 5 cards by rank (highest first)
@@ -648,16 +648,16 @@ int8_t PokerKit::calculate_winner() {
     std::vector<int> p0_highs;
     for (auto it = p0_rank_count.rbegin(); it != p0_rank_count.rend(); ++it) {
         p0_highs.push_back(it->first);
-        if (p0_highs.size() == 5) break;
+        if (p0_highs.size() == 5) { break; }
     }
     std::vector<int> p1_highs;
     for (auto it = p1_rank_count.rbegin(); it != p1_rank_count.rend(); ++it) {
         p1_highs.push_back(it->first);
-        if (p1_highs.size() == 5) break;
+        if (p1_highs.size() == 5) { break; }
     }
     for (size_t i = 0; i < 5; ++i) {
-        if (p0_highs[i] > p1_highs[i]) return 0;
-        if (p1_highs[i] > p0_highs[i]) return 1;
+        if (p0_highs[i] > p1_highs[i]) { return 0; }
+        if (p1_highs[i] > p0_highs[i]) { return 1; }
     }
     return -1;  // Tie — same top 5 cards
 }

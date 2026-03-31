@@ -31,7 +31,7 @@ EquityMap InitialStrategyGetter::load_precomputed_equities() {
 
     string infoset, wins_str, total_str;
     while (getline(file, infoset)) {
-        if (!getline(file, wins_str) || !getline(file, total_str)) break;
+        if (!getline(file, wins_str) || !getline(file, total_str)) { break; }
 
         size_t first_delim = infoset.find(bucket_delimiter);
         size_t second_delim = infoset.find(bucket_delimiter, first_delim + 1);
@@ -63,19 +63,19 @@ void InitialStrategyGetter::apply_equity_adjustments(vector<float>& distribution
     for (size_t i = 0; i < valid_actions.size(); i++) {
         char type = valid_actions[i].type;
         if (win_rate >= 0.9f) {
-            if (type == 'f') distribution[i] *= 0.2f;
-            else if (type == 'r') distribution[i] *= 3.0f;
-            else if (type == 'a') distribution[i] *= 4.0f;
+            if (type == 'f') { distribution[i] *= 0.2f; }
+            else if (type == 'r') { distribution[i] *= 3.0f; }
+            else if (type == 'a') { distribution[i] *= 4.0f; }
         } else if (win_rate >= 0.7f) {
-            if (type == 'f') distribution[i] *= 0.5f;
-            else if (type == 'r') distribution[i] *= 2.0f;
-            else if (type == 'a') distribution[i] *= 2.0f;
+            if (type == 'f') { distribution[i] *= 0.5f; }
+            else if (type == 'r') { distribution[i] *= 2.0f; }
+            else if (type == 'a') { distribution[i] *= 2.0f; }
         } else if (win_rate >= 0.4f) {
-            if (type == 'c') distribution[i] *= 3.0f;
+            if (type == 'c') { distribution[i] *= 3.0f; }
         } else {
-            if (type == 'r') distribution[i] *= 0.3f;
-            else if (type == 'a') distribution[i] *= 0.3f;
-            else if (type == 'f') distribution[i] *= 2.0f;
+            if (type == 'r') { distribution[i] *= 0.3f; }
+            else if (type == 'a') { distribution[i] *= 0.3f; }
+            else if (type == 'f') { distribution[i] *= 2.0f; }
         }
     }
 
