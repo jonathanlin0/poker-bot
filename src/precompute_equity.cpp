@@ -33,11 +33,11 @@ const std::string BUCKET_DELIMITER = " ";
 ResultMap load_existing_data() {
     ResultMap data{};
     std::ifstream file(PRECOMPUTED_EQUITIES_FILE);
-    if (!file.is_open()) return data;
+    if (!file.is_open()) { return data; }
 
     std::string infoset, wins_str, total_str;
     while (std::getline(file, infoset)) {
-        if (!std::getline(file, wins_str) || !std::getline(file, total_str)) break;
+        if (!std::getline(file, wins_str) || !std::getline(file, total_str)) { break; }
 
         // Extract street from the infoset (second token: "player street ...")
         size_t first_delim = infoset.find(BUCKET_DELIMITER);
@@ -70,7 +70,7 @@ ResultMap simulate_equity(int thread_id) {
     std::vector<Action> dummy_actions;
 
     for (int hand = 0; hand < PRECOMPUTE_EQUITY_HANDS_PER_THREAD; hand++) {
-        if (should_stop.load()) break;
+        if (should_stop.load()) { break; }
 
         if ((hand + 1) % PRECOMPUTE_EQUITY_PRINT_INTERVAL == 0) {
             std::lock_guard<std::mutex> lock(print_mutex); // lock the mutex to avoid race conditions. automatically unlocks when out of scope
@@ -125,16 +125,16 @@ ResultMap simulate_equity(int thread_id) {
         // Determine winner from stack deltas
         auto stacks = game.get_stacks();
         int8_t winner;
-        if (stacks[0] > STARTING_STACK) winner = 0;
-        else if (stacks[1] > STARTING_STACK) winner = 1;
-        else winner = -1;
+        if (stacks[0] > STARTING_STACK) { winner = 0; }
+        else if (stacks[1] > STARTING_STACK) { winner = 1; }
+        else { winner = -1; }
 
         for (int s = 0; s < 4; s++) {
             for (int p = 0; p < 2; p++) {
                 auto& curr_data = results[s][infosets[s][p]];
                 curr_data[1] += 1.0f;
-                if (winner == p) curr_data[0] += 1.0f;
-                else if (winner == -1) curr_data[0] += 0.5f;
+                if (winner == p) { curr_data[0] += 1.0f; }
+                else if (winner == -1) { curr_data[0] += 0.5f; }
             }
         }
     }

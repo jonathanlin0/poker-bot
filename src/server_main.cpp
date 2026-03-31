@@ -145,7 +145,7 @@ void run_bot_loop(HandData& hand) {
         }
 
         uint8_t to_move = get_player_to_move(hand.history);
-        if (to_move != bot_seat) return;
+        if (to_move != bot_seat) { return; }
 
         bool is_preflop = (hand.history.size() == 1);
         vector<Action> valid = get_valid_actions(is_preflop, game);
@@ -203,7 +203,7 @@ int main(int argc, char* argv[]) {
     // Home page
     CROW_ROUTE(app, "/")([] {
         auto html = read_file(STATIC_DIR + "/index.html");
-        if (html.empty()) return response(404, "File not found");
+        if (html.empty()) { return response(404, "File not found"); }
         auto resp = response(html);
         resp.set_header("Content-Type", "text/html");
         return resp;
@@ -212,7 +212,7 @@ int main(int argc, char* argv[]) {
     // Leaderboard page
     CROW_ROUTE(app, "/leaderboard")([] {
         auto html = read_file(STATIC_DIR + "/leaderboard.html");
-        if (html.empty()) return response(404, "File not found");
+        if (html.empty()) { return response(404, "File not found"); }
         auto resp = response(html);
         resp.set_header("Content-Type", "text/html");
         return resp;
@@ -243,7 +243,7 @@ int main(int argc, char* argv[]) {
     // Serves the login page
     CROW_ROUTE(app, "/play")([] {
         auto html = read_file(STATIC_DIR + "/login.html");
-        if (html.empty()) return response(404, "File not found");
+        if (html.empty()) { return response(404, "File not found"); }
         auto resp = response(html);
         resp.set_header("Content-Type", "text/html");
         return resp;
@@ -269,7 +269,7 @@ int main(int argc, char* argv[]) {
         }
 
         auto html = read_file(STATIC_DIR + "/play.html");
-        if (html.empty()) return response(404, "File not found");
+        if (html.empty()) { return response(404, "File not found"); }
         auto resp = response(html);
         resp.set_header("Content-Type", "text/html");
         return resp;
@@ -278,7 +278,7 @@ int main(int argc, char* argv[]) {
     // Static CSS
     CROW_ROUTE(app, "/css/style.css")([] {
         auto css = read_file(STATIC_DIR + "/css/style.css");
-        if (css.empty()) return response(404);
+        if (css.empty()) { return response(404); }
         auto resp = response(css);
         resp.set_header("Content-Type", "text/css");
         return resp;
@@ -287,7 +287,7 @@ int main(int argc, char* argv[]) {
     // Static JS
     CROW_ROUTE(app, "/js/game.js")([] {
         auto js = read_file(STATIC_DIR + "/js/game.js");
-        if (js.empty()) return response(404);
+        if (js.empty()) { return response(404); }
         auto resp = response(js);
         resp.set_header("Content-Type", "application/javascript");
         return resp;

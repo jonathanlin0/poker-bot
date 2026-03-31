@@ -240,7 +240,7 @@ struct BettingAggression {
     operator string() const {
         string result;
         for (size_t i = 0; i < raise_counts[0].size(); i++) {
-            if (!result.empty()) result += "-";
+            if (!result.empty()) { result += "-"; }
             result += to_string(raise_counts[0][i]);
             result += to_string(raise_counts[1][i]);
         }
@@ -253,7 +253,7 @@ struct BettingAggression {
         for (int p = 0; p < 2; p++) {
             string player_name = (p == 0) ? "SB" : "BB";
             for (size_t s = 0; s < raise_counts[p].size(); s++) {
-                if (!result.empty()) result += ", ";
+                if (!result.empty()) { result += ", "; }
                 result += player_name + " raised " + to_string(raise_counts[p][s])
                         + " time" + (raise_counts[p][s] != 1 ? "s" : "")
                         + " on " + street_names[s];
@@ -312,18 +312,18 @@ BoardTexture get_board_texture(const PokerKit& game) {
     for (int i = 0; i <= 8; i++) {
         uint8_t count = 0;
         for (int j = i; j <= i + 4; j++) {
-            if (rank_counts[j] > 0) count++;
+            if (rank_counts[j] > 0) { count++; }
         }
         max_window = max(max_window, count);
     }
 
     // Separate wheel check: A-2-3-4-5 = rank_values {12, 0, 1, 2, 3}
     uint8_t wheel_count = 0;
-    if (rank_counts[12] > 0) wheel_count++;  // A
-    if (rank_counts[0] > 0)  wheel_count++;  // 2
-    if (rank_counts[1] > 0)  wheel_count++;  // 3
-    if (rank_counts[2] > 0)  wheel_count++;  // 4
-    if (rank_counts[3] > 0)  wheel_count++;  // 5
+    if (rank_counts[12] > 0) { wheel_count++; }  // A
+    if (rank_counts[0] > 0) { wheel_count++; }  // 2
+    if (rank_counts[1] > 0) { wheel_count++; }  // 3
+    if (rank_counts[2] > 0) { wheel_count++; }  // 4
+    if (rank_counts[3] > 0) { wheel_count++; }  // 5
 
     texture.max_straight_window = max(max_window, wheel_count);
 
@@ -377,7 +377,7 @@ PostflopHandState get_postflop_hand_state(const PokerKit& game, uint8_t player) 
             for (int j = i; j <= i + 4; j++) {
                 if (counts[j] == 0) { all_present = false; break; }
             }
-            if (all_present) return static_cast<int8_t>(i + 4);
+            if (all_present) { return static_cast<int8_t>(i + 4); }
         }
         // Wheel: A-2-3-4-5
         if (counts[12] > 0 && counts[0] > 0 && counts[1] > 0
@@ -399,12 +399,12 @@ PostflopHandState get_postflop_hand_state(const PokerKit& game, uint8_t player) 
     // Find kicker: highest rank not in a set of excluded ranks
     auto find_kicker = [&](const vector<uint8_t>& exclude_ranks) -> uint8_t {
         for (int i = 12; i >= 0; i--) {
-            if (rank_counts[i] == 0) continue;
+            if (rank_counts[i] == 0) { continue; }
             bool is_curr_rank_excluded = false;
             for (uint8_t r : exclude_ranks) {
                 if (r == static_cast<uint8_t>(i)) { is_curr_rank_excluded = true; break; }
             }
-            if (!is_curr_rank_excluded) return RANK_TO_GROUP.at(static_cast<uint8_t>(i));
+            if (!is_curr_rank_excluded) { return RANK_TO_GROUP.at(static_cast<uint8_t>(i)); }
         }
         return 0;
     };
@@ -423,9 +423,9 @@ PostflopHandState get_postflop_hand_state(const PokerKit& game, uint8_t player) 
     // Categorize ranks by their count (sorted rank high to low)
     vector<uint8_t> quad_ranks, trip_ranks, pair_ranks;
     for (int i = 12; i >= 0; i--) {
-        if (rank_counts[i] == 4) quad_ranks.push_back(static_cast<uint8_t>(i));
-        else if (rank_counts[i] == 3) trip_ranks.push_back(static_cast<uint8_t>(i));
-        else if (rank_counts[i] == 2) pair_ranks.push_back(static_cast<uint8_t>(i));
+        if (rank_counts[i] == 4) { quad_ranks.push_back(static_cast<uint8_t>(i)); }
+        else if (rank_counts[i] == 3) { trip_ranks.push_back(static_cast<uint8_t>(i)); }
+        else if (rank_counts[i] == 2) { pair_ranks.push_back(static_cast<uint8_t>(i)); }
     }
 
     // Check for quads
@@ -479,7 +479,7 @@ BettingAggression get_betting_aggression(const PokerKit& game) {
         uint8_t p1_raises = 0;
 
         for (size_t i = 0; i < bets[street].size(); i++) {
-            if (bets[street][i].type != 'r') continue;
+            if (bets[street][i].type != 'r') { continue; }
 
             // Even index = SB (p0), odd index = BB (p1)
             if (i % 2 == 0){

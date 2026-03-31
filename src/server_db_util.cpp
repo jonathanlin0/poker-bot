@@ -56,7 +56,7 @@ int upsert_player(const string& username) {
     }
     sqlite3_finalize(stmt);
 
-    if (player_id != -1) return player_id;
+    if (player_id != -1) { return player_id; }
 
     sqlite3_prepare_v2(db, "INSERT INTO players (username) VALUES (?)", -1, &stmt, nullptr);
     sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_TRANSIENT);

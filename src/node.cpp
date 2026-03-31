@@ -25,7 +25,7 @@ Node::Node(uint8_t street,
 
 size_t Node::action_index(const std::string& action) const {
     for (size_t i = 0; i < actions.size(); i++) {
-        if (actions[i] == action) return i;
+        if (actions[i] == action) { return i; }
     }
     throw std::runtime_error("Action not found in node: " + action);
 }
