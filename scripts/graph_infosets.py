@@ -17,10 +17,10 @@ NUM_MARKERS = 15
 
 
 def get_num_threads(experiment_path):
-    config_path = os.path.join(experiment_path, "config.txt")
-    if not os.path.exists(config_path):
+    metadata_path = os.path.join(experiment_path, "metadata.txt")
+    if not os.path.exists(metadata_path):
         return None
-    with open(config_path, "r") as f:
+    with open(metadata_path, "r") as f:
         for line in f:
             key, _, value = line.strip().partition(":")
             if key == "num-threads":
