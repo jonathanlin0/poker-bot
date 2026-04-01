@@ -32,6 +32,13 @@ cmake -B build && cmake --build build
 ./build/poker_train -n "default-name" --num-threads 1
 ```
 
+| Argument | Description | Default |
+|---|---|---|
+| `-n <name>` | Experiment name (used as the output directory under `data/`) | `default` |
+| `--num-threads <N>` | Number of threads (each spawns 2 traversals per epoch) | `4` |
+| `--epochs <N>` | Total number of epochs to train | `2100000` |
+| `--continue` | Resume training from a previous checkpoint. Loads metadata and weights from the experiment directory. `--epochs` and `--num-threads` override saved values if provided. If no other flags provided, then training uses previously set parameters. | off |
+
 ## Run Tests
 ```
 # configure, build, and run
