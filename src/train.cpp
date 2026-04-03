@@ -52,7 +52,7 @@ const int DEFAULT_NUM_THREADS = 4;
 
 class Trainer {
 public:
-    Trainer(const string& experiment_name, int epochs, int num_threads);
+    Trainer(const string& experiment_name, int epochs, int num_threads, bool use_precomputed_equities);
     /*
       Loads the entire previous state of the experiment
     */
@@ -73,6 +73,7 @@ private:
     array<unordered_map<string, Node>, 4> nodes;
     array<mutex, 4> street_locks; // use via lock(street_locks[street]) for safe locking and unlocking. automatically unlocks when out of scope
 
+    bool use_precomputed_equities;
     atomic<long long> total_hands_played; // thread safe type
     mutex stats_lock;
     unordered_map<string, float> infoset_to_hands_played;
@@ -102,7 +103,7 @@ private:
 
 
 // TODO: remove the magic numbers in this constructor
-Trainer::Trainer(const string& experiment_name, int epochs, int num_threads)
+Trainer::Trainer(const string& experiment_name, int epochs, int num_threads, bool use_precomputed_equities)
     : epoch(0),
       epochs(epochs),
       num_threads(num_threads),
@@ -110,9 +111,12 @@ Trainer::Trainer(const string& experiment_name, int epochs, int num_threads)
       experiment_dir("data/" + experiment_name),
       next_epoch_to_calculate_exploitability(50000),
       next_epoch_to_perform_validation(5000),
+      use_precomputed_equities(use_precomputed_equities),
       total_hands_played(0),
       interval_regret_sum(0.0)
-{}
+{
+    InitialStrategyGetter::set_use_precomputed_equities(use_precomputed_equities);
+}
 
 void Trainer::load_prev_data(int epochs_override, int num_threads_override) {
     load_metadata();
@@ -136,6 +140,7 @@ void Trainer::save_metadata() {
     file << "next-epoch-to-calculate-exploitability:" << next_epoch_to_calculate_exploitability << "\n";
     file << "next-epoch-to-perform-validation:" << next_epoch_to_perform_validation << "\n";
     file << "total-hands-played:" << total_hands_played.load() << "\n";
+    file << "pre-eq:" << (use_precomputed_equities ? 1 : 0) << "\n";
 }
 
 void Trainer::load_metadata() {
@@ -156,6 +161,7 @@ void Trainer::load_metadata() {
         else if (key == "next-epoch-to-calculate-exploitability") { next_epoch_to_calculate_exploitability = stoi(value); }
         else if (key == "next-epoch-to-perform-validation") { next_epoch_to_perform_validation = stoi(value); }
         else if (key == "total-hands-played") { total_hands_played = stoll(value); }
+        else if (key == "pre-eq") { use_precomputed_equities = (stoi(value) != 0); } // boolean converted to int in save_metadata()
     }
     cout << "Loaded metadata:" << endl;
     cout << "  epoch=" << epoch << endl;
@@ -164,6 +170,7 @@ void Trainer::load_metadata() {
     cout << "  next_exploitability=" << next_epoch_to_calculate_exploitability << endl;
     cout << "  next_validation=" << next_epoch_to_perform_validation << endl;
     cout << "  total_hands_played=" << total_hands_played << endl;
+    cout << "  pre_eq=" << use_precomputed_equities << endl;
 }
 
 void Trainer::recalculate_strategies() {
@@ -529,6 +536,7 @@ int main(int argc, char* argv[]) {
     int num_threads = -1;
     int epochs = -1;
     bool continue_training = false;
+    bool use_precomputed_equities = true;
 
     /*
       --continue flag indicates to resume training from the last saved state for the given experiment.
@@ -552,21 +560,24 @@ int main(int argc, char* argv[]) {
             }
         } else if (string(argv[i]) == "--continue") {
             continue_training = true;
+        } else if (string(argv[i]) == "--no-pre-eq") {
+            use_precomputed_equities = false;
         } else {
-            cerr << "Usage: " << argv[0] << " -n <name> [--num-threads <N>] [--epochs <N>] [--continue]" << endl;
+            cerr << "Usage: " << argv[0] << " -n <name> [--num-threads <N>] [--epochs <N>] [--continue] [--no-pre-eq]" << endl;
             return 1;
         }
     }
 
     if (continue_training) {
         // load previous state; explicit command line arguments override saved values
-        Trainer trainer(experiment_name, DEFAULT_EPOCHS, DEFAULT_NUM_THREADS);
+        Trainer trainer(experiment_name, DEFAULT_EPOCHS, DEFAULT_NUM_THREADS, use_precomputed_equities);
         trainer.load_prev_data(epochs, num_threads);
         trainer.train();
     } else {
         Trainer trainer(experiment_name,
                         epochs != -1 ? epochs : DEFAULT_EPOCHS,
-                        num_threads != -1 ? num_threads : DEFAULT_NUM_THREADS);
+                        num_threads != -1 ? num_threads : DEFAULT_NUM_THREADS,
+                        use_precomputed_equities);
         trainer.train();
     }
 

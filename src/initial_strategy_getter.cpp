@@ -19,6 +19,7 @@ using std::call_once;
 
 EquityMap InitialStrategyGetter::equities_{};
 once_flag InitialStrategyGetter::load_flag_;
+bool InitialStrategyGetter::use_precomputed_ = true;
 
 EquityMap InitialStrategyGetter::load_precomputed_equities() {
     EquityMap data{};
@@ -52,10 +53,16 @@ const EquityMap& InitialStrategyGetter::get_equities() {
     return equities_;
 }
 
+void InitialStrategyGetter::set_use_precomputed_equities(bool use) {
+    use_precomputed_ = use;
+}
+
 void InitialStrategyGetter::ensure_loaded() {
     // call_once guarantees the lambda func runs exactly once across all threads; subsequent calls are no-ops
     call_once(load_flag_, []() {
-        equities_ = load_precomputed_equities();
+        if (use_precomputed_) {
+            equities_ = load_precomputed_equities();
+        }
     });
 }
 

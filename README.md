@@ -38,6 +38,7 @@ cmake -B build && cmake --build build
 | `--num-threads <N>` | Number of threads (each spawns 2 traversals per epoch) | `4` |
 | `--epochs <N>` | Total number of epochs to train | `2100000` |
 | `--continue` | Resume training from a previous checkpoint. Loads metadata and weights from the experiment directory. `--epochs` and `--num-threads` override saved values if provided. If no other flags provided, then training uses previously set parameters. | off |
+| `--no-pre-eq` | Disable precomputed equities for initial strategy seeding. Without this flag, equities are loaded from `data/precomputed_equity.txt`. | false (equities used) |
 
 ## Run Tests
 ```

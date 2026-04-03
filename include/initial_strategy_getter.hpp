@@ -20,6 +20,7 @@ class InitialStrategyGetter {
         Returns an empty map and prints a warning if the file can't be loaded.
     */
     static const EquityMap& get_equities();
+    static void set_use_precomputed_equities(bool use);
 
 private:
     static EquityMap load_precomputed_equities();
@@ -28,6 +29,8 @@ private:
     static EquityMap equities_;
     // ensures equities_ is loaded exactly once, even if multiple threads call ensure_loaded() simultaneously
     static std::once_flag load_flag_;
+    // flag on whether to use precomputed equities
+    static bool use_precomputed_;
 };
 
 #endif // INITIAL_STRATEGY_GETTER_HPP
