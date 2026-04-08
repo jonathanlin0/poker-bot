@@ -10,6 +10,7 @@
 #include "../include/util.hpp"
 #include "../include/validation.hpp"
 #include "../include/cfr_util.hpp"
+#include <algorithm>
 #include <atomic>
 #include <iostream>
 #include <array>
@@ -28,8 +29,10 @@ using std::array;
 using std::atomic;
 using std::ceil;
 using std::cerr;
+using std::cin;
 using std::cout;
 using std::endl;
+using std::getline;
 using std::ifstream;
 using std::ios;
 using std::lock_guard;
@@ -42,6 +45,7 @@ using std::stoi;
 using std::stoll;
 using std::string;
 using std::thread;
+using std::transform;
 using std::unordered_map;
 using std::vector;
 namespace chrono = std::chrono;
@@ -150,7 +154,7 @@ void Trainer::load_metadata() {
         throw runtime_error("Failed to open metadata file: " + path + " (does the experiment exist?)");
     }
     string line;
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         size_t colon = line.find(':');
         if (colon == string::npos) { continue; }
         string key = line.substr(0, colon);
@@ -574,6 +578,18 @@ int main(int argc, char* argv[]) {
         trainer.load_prev_data(epochs, num_threads);
         trainer.train();
     } else {
+        string experiment_dir = "data/" + experiment_name;
+        if (filesystem::exists(experiment_dir)) {
+            cout << "Experiment directory '" << experiment_dir << "' already exists." << endl;
+            cout << "Overwrite? [y/n]: ";
+            string response;
+            getline(cin, response);
+            transform(response.begin(), response.end(), response.begin(), ::tolower);
+            if (response != "y" && response != "yes") {
+                cout << "Aborted." << endl;
+                return 0;
+            }
+        }
         Trainer trainer(experiment_name,
                         epochs != -1 ? epochs : DEFAULT_EPOCHS,
                         num_threads != -1 ? num_threads : DEFAULT_NUM_THREADS,
