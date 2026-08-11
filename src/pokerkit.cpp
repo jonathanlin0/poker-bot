@@ -425,27 +425,31 @@ int8_t PokerKit::calculate_winner() {
     
     // ================================ CHECK FOR FLUSH ================================
     // Helper function to check for flush using precomputed suit_ranks
-    // Returns the highest rank index if flush found, -1 if no flush
-    auto check_flush = [](const std::map<char, std::vector<int>>& suit_ranks) -> int {
+    // Returns the sorted ranks for the flush suit, or nullptr if no flush exists
+    auto check_flush = [](const std::map<char, std::vector<int>>& suit_ranks) -> const std::vector<int>* {
         for (const auto& [suit, rank_indices] : suit_ranks) {
             if (rank_indices.size() >= 5) {
-                return rank_indices.back();  // Highest rank (already sorted ascending)
+                return &rank_indices;
             }
         }
-        return -1;  // No flush
+        return nullptr;
     };
     
-    int p0_flush = check_flush(p0_suit_ranks);
-    int p1_flush = check_flush(p1_suit_ranks);
+    const std::vector<int>* p0_flush = check_flush(p0_suit_ranks);
+    const std::vector<int>* p1_flush = check_flush(p1_suit_ranks);
     
-    // Compare flush results (higher index = higher rank)
-    if (p0_flush != -1 && p1_flush != -1) {
-        if (p0_flush > p1_flush) { return 0; }
-        if (p1_flush > p0_flush) { return 1; }
-        return -1;  // Tie
+    // Compare each player's five highest flush ranks, highest first
+    if (p0_flush != nullptr && p1_flush != nullptr) {
+        auto p0_ranks = p0_flush->crbegin(); // crbegin() = "constant reverse begin"
+        auto p1_ranks = p1_flush->crbegin();
+        for (size_t i = 0; i < 5; ++i) {
+            if (p0_ranks[i] > p1_ranks[i]) { return 0; }
+            if (p1_ranks[i] > p0_ranks[i]) { return 1; }
+        }
+        return -1;  // Same top five ranks
     }
-    if (p0_flush != -1) { return 0; }  // Only player 0 has flush
-    if (p1_flush != -1) { return 1; }  // Only player 1 has flush
+    if (p0_flush != nullptr) { return 0; }  // Only player 0 has flush
+    if (p1_flush != nullptr) { return 1; }  // Only player 1 has flush
     
     // ================================ CHECK FOR STRAIGHT ================================
     // Helper function to check for straight

@@ -1559,6 +1559,75 @@ TEST(HandEvaluationTest, Flush_BothHave_Player1HigherTopCard) {
     EXPECT_EQ(stacks[1], 102);  // P1 wins: A-high flush > Q-high flush
 }
 
+TEST(HandEvaluationTest, Flush_BothHave_Player0HigherFifthCard) {
+    // The first four flush cards are shared; P0 wins with the fifth card.
+    // P0: 7h, 3d -> A-K-Q-9-7 flush
+    // P1: 6h, 4s -> A-K-Q-9-6 flush
+    std::array<Card, 2> sb_hand = {Card(/*suit=*/'H', /*rank=*/'7'), Card(/*suit=*/'D', /*rank=*/'3')};
+    std::array<Card, 2> bb_hand = {Card(/*suit=*/'H', /*rank=*/'6'), Card(/*suit=*/'S', /*rank=*/'4')};
+
+    PokerKit game(/*small_blind=*/1, /*big_blind=*/2, /*stack_p0=*/100, /*stack_p1=*/100, sb_hand, bb_hand);
+
+    // Preflop
+    game.check_or_call();
+    game.check_or_call();
+
+    // Board: Ah, Kh, Qh, 9h, 2c
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'A'));
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'K'));
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'Q'));
+
+    game.check_or_call();
+    game.check_or_call();
+
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'9'));
+    game.check_or_call();
+    game.check_or_call();
+
+    game.deal_board(Card(/*suit=*/'C', /*rank=*/'2'));
+    game.check_or_call();
+    game.check_or_call();
+
+    EXPECT_TRUE(game.is_game_over());
+    auto stacks = game.get_stacks();
+    EXPECT_EQ(stacks[0], 102);  // P0 wins on the fifth flush card: 7 > 6
+    EXPECT_EQ(stacks[1], 98);
+}
+
+TEST(HandEvaluationTest, Flush_BothHave_SameTopFiveWithDifferentLengths_Chop) {
+    // Both players use the five board hearts. Extra lower hearts do not play.
+    // P0 has seven hearts total; P1 has six hearts total.
+    std::array<Card, 2> sb_hand = {Card(/*suit=*/'H', /*rank=*/'6'), Card(/*suit=*/'H', /*rank=*/'5')};
+    std::array<Card, 2> bb_hand = {Card(/*suit=*/'H', /*rank=*/'4'), Card(/*suit=*/'C', /*rank=*/'2')};
+
+    PokerKit game(/*small_blind=*/1, /*big_blind=*/2, /*stack_p0=*/100, /*stack_p1=*/100, sb_hand, bb_hand);
+
+    // Preflop
+    game.check_or_call();
+    game.check_or_call();
+
+    // Board: Ah, Kh, Qh, 9h, 7h
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'A'));
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'K'));
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'Q'));
+
+    game.check_or_call();
+    game.check_or_call();
+
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'9'));
+    game.check_or_call();
+    game.check_or_call();
+
+    game.deal_board(Card(/*suit=*/'H', /*rank=*/'7'));
+    game.check_or_call();
+    game.check_or_call();
+
+    EXPECT_TRUE(game.is_game_over());
+    auto stacks = game.get_stacks();
+    EXPECT_EQ(stacks[0], 100);
+    EXPECT_EQ(stacks[1], 100);
+}
+
 TEST(HandEvaluationTest, Flush_BothHave_Chop) {
     // Board has 5 hearts → both players play the board flush
     // Neither player holds a heart higher than the board
